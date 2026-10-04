@@ -1,26 +1,173 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Brand palette: accent #4a90e2, accent-deep #2f6fbb, mint-deep #fff0a1, ink #051a4b, lav #97b6e5 on a white base */
+  --color-ink: #051a4b;
+  --color-ink-soft: #3c4c78;
+  --color-paper: #ffffff;
+  --color-mint-deep: #fff0a1;
+  --color-accent: #4a90e2;
+  --color-accent-deep: #2f6fbb;
+  --color-lav: #97b6e5;
+  --color-cream: #eef4fc;
+  --color-line: #e3e9f4;
+
+  --font-sans: var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft: 0 24px 60px -28px rgb(5 26 75 / 0.18);
+  --shadow-lift: 0 36px 90px -36px rgb(5 26 75 / 0.28);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  scroll-behavior: smooth;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+::selection {
+  background: rgb(74 144 226 / 0.25);
+}
+
+/* Faint film-grain so large surfaces never read as flat colour */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.bg-dotgrid {
+  background-image: radial-gradient(rgb(5 26 75 / 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Decorative motion: floating brand shapes, slow-spin rings, drawn squiggles */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-22px) rotate(7deg);
+  }
+}
+
+@keyframes driftX {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(18px);
+  }
+}
+
+@keyframes spinSlow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.anim-rise {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+.anim-float-slow {
+  animation: floatSlow 12s ease-in-out infinite;
+}
+
+.anim-drift {
+  animation: driftX 14s ease-in-out infinite;
+}
+
+.anim-spin-slow {
+  animation: spinSlow 30s linear infinite;
+}
+
+.anim-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: drawLine 1.2s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-float,
+  .anim-float-slow,
+  .anim-drift,
+  .anim-spin-slow {
+    animation: none;
+  }
+  .anim-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .anim-rise {
+    animation: none;
+  }
 }
