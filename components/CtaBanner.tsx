@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import Reveal from "@/components/Reveal";
-import { Blob, Ring, Squiggle } from "@/components/Decor";
+import { Burst, Geo, Squiggle } from "@/components/Decor";
 
 export default function CtaBanner() {
   const [submitted, setSubmitted] = useState(false);
@@ -23,16 +23,14 @@ export default function CtaBanner() {
             aria-hidden
             className="absolute -bottom-32 -left-16 h-80 w-80 bg-[radial-gradient(circle,rgb(5_26_75/0.18),transparent_65%)]"
           />
-          <Blob
+          <Geo
+            kind="quarter"
             tone="mintDeep"
-            variant="signature"
-            className="anim-float-slow pointer-events-none absolute -right-10 -top-10 hidden h-40 w-40 opacity-25 lg:block"
+            className="anim-float-slow pointer-events-none absolute -right-8 -top-8 hidden h-44 w-44 lg:block"
           />
-          <Ring
-            spin
-            from="#ffffff"
-            to="#97b6e5"
-            className="pointer-events-none absolute -bottom-14 right-1/3 hidden h-32 w-32 opacity-30 lg:block"
+          <Burst
+            tone="paper"
+            className="anim-float pointer-events-none absolute -bottom-10 right-1/3 hidden h-28 w-28 opacity-40 lg:block"
           />
           <div className="relative mx-auto flex max-w-2xl flex-col items-center">
             <div className="flex flex-col items-center">

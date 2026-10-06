@@ -9,7 +9,7 @@ import {
   VideoCamera,
 } from "@phosphor-icons/react";
 import Reveal from "@/components/Reveal";
-import { Blob, Marked } from "@/components/Decor";
+import { Cluster, Geo, Marked } from "@/components/Decor";
 
 const offerings = [
   {
@@ -63,14 +63,14 @@ export default function Offerings() {
       id="journey"
       className="relative scroll-mt-28 overflow-hidden px-4 py-24 md:py-32"
     >
-      <Blob
-        tone="cream"
-        variant="twist"
-        className="anim-float-slow pointer-events-none absolute -right-16 top-16 hidden h-48 w-48 opacity-70 lg:block"
+      <Cluster
+        variant="b"
+        className="pointer-events-none absolute -right-16 top-10 hidden h-72 w-72 lg:block"
       />
-      <Blob
+      <Geo
+        kind="cross"
         tone="mintDeep"
-        className="anim-float pointer-events-none absolute -left-14 bottom-10 hidden h-40 w-40 opacity-70 lg:block"
+        className="anim-float pointer-events-none absolute -left-12 bottom-10 hidden h-44 w-44 lg:block"
       />
       <div className="relative mx-auto max-w-6xl">
         <Reveal className="text-center">

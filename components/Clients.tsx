@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { CheckCircle, PaperPlaneTilt } from "@phosphor-icons/react";
 import Reveal from "@/components/Reveal";
-import { Blob, Marked } from "@/components/Decor";
+import { Geo, Marked } from "@/components/Decor";
 
 type FormState = "idle" | "submitting" | "success";
 
@@ -65,9 +65,15 @@ export function ClientsPanel() {
       <Reveal>
         <div className="rounded-[2rem] bg-ink/5 p-1.5 ring-1 ring-ink/5">
           <div className="relative overflow-hidden rounded-[calc(2rem-0.375rem)] bg-white">
-            <Blob
+            <Geo
+              kind="quarter"
               tone="mintDeep"
-              className="anim-float-slow pointer-events-none absolute -right-10 -top-8 h-32 w-32 opacity-40"
+              className="anim-float-slow pointer-events-none absolute -right-8 -top-8 h-32 w-32"
+            />
+            <Geo
+              kind="block"
+              tone="lav"
+              className="anim-float pointer-events-none absolute right-10 top-16 h-10 w-16 opacity-70"
             />
             <div className="relative h-44">
               <Image

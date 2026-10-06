@@ -1,74 +1,144 @@
-import { useId } from "react";
-
 /**
- * Inline-SVG decorative asset system for The VA Workshop.
- * Server-safe: no motion/phosphor imports, usable from server or client components.
- * All motion is CSS (globals.css) and reduced-motion guarded.
+ * Decorative asset system for The VA Workshop.
+ * Risograph-collage language: flat geometric shapes with stippled ink grain,
+ * overprint multiply blending, and hand-drawn line marks (bursts, scrawls).
+ * Server-safe: no motion/phosphor imports; all motion is CSS (globals.css).
  */
 
-type Tone = "lav" | "accent" | "mintDeep" | "cream" | "ink";
+type Tone =
+  | "lav"
+  | "accent"
+  | "accentDeep"
+  | "mintDeep"
+  | "cream"
+  | "ink"
+  | "paper";
 
 const FILLS: Record<Tone, string> = {
   lav: "#97b6e5",
   accent: "#4a90e2",
+  accentDeep: "#2f6fbb",
   mintDeep: "#fff0a1",
   cream: "#eef4fc",
   ink: "#051a4b",
+  paper: "#ffffff",
 };
 
-const BLOB_PATHS = {
-  organic:
-    "M100 10C130 10 160 30 175 60C190 90 185 130 160 155C135 180 95 190 65 175C35 160 12 130 12 98C12 66 35 35 62 20C74 13 87 10 100 10Z",
-  signature:
-    "M100 10C130 10 160 30 175 60C190 90 185 130 160 155C135 180 95 190 65 175C35 160 12 130 12 98C12 66 35 35 62 20C74 13 87 10 100 10Z M100 66C119 66 134 81 134 100C134 119 119 134 100 134C81 134 66 119 66 100C66 81 81 66 100 66Z",
-  twist:
-    "M108 12C138 16 163 38 170 68C176 95 166 115 148 130C132 144 124 160 102 164C77 169 50 158 34 137C18 116 12 88 26 63C41 36 74 8 108 12Z",
-} as const;
+type GeoKind = "block" | "quarter" | "quarterBr" | "half" | "capsule" | "cross";
 
-type BlobVariant = keyof typeof BLOB_PATHS;
+const CROSS_CLIP =
+  "polygon(34% 0, 66% 0, 66% 34%, 100% 34%, 100% 66%, 66% 66%, 66% 100%, 34% 100%, 34% 66%, 0 66%, 0 34%, 34% 34%)";
 
-export function Blob({
+function shapeStyle(kind: GeoKind): React.CSSProperties {
+  switch (kind) {
+    case "quarter":
+      return { borderRadius: "100% 0 0 0" };
+    case "quarterBr":
+      return { borderRadius: "0 0 100% 0" };
+    case "half":
+      return { borderRadius: "999px 999px 0 0" };
+    case "capsule":
+      return { borderRadius: "999px" };
+    case "cross":
+      return { clipPath: CROSS_CLIP };
+    default:
+      return {};
+  }
+}
+
+/** Flat geometric shape with stippled riso grain; multiply blends where shapes overlap. */
+export function Geo({
+  kind = "block",
   tone = "lav",
-  variant = "organic",
-  className,
+  blend = "multiply",
+  className = "",
 }: {
+  kind?: GeoKind;
   tone?: Tone;
-  variant?: BlobVariant;
+  blend?: "multiply" | "normal";
   className?: string;
 }) {
   return (
-    <svg viewBox="0 0 200 200" className={className} aria-hidden="true" focusable="false">
-      <path d={BLOB_PATHS[variant]} fill={FILLS[tone]} fillRule="evenodd" />
-    </svg>
+    <div
+      aria-hidden
+      className={`riso pointer-events-none absolute ${
+        blend === "multiply" ? "mix-blend-multiply" : ""
+      } ${className}`}
+      style={{ backgroundColor: FILLS[tone], ...shapeStyle(kind) }}
+    />
   );
 }
 
-export function Ring({
-  from = "#97b6e5",
-  to = "#4a90e2",
-  className,
-  spin = false,
+/** Composed collage clusters of overlapping grainy shapes. */
+export function Cluster({
+  variant = "a",
+  className = "",
 }: {
-  from?: string;
-  to?: string;
+  variant?: "a" | "b" | "c";
   className?: string;
-  spin?: boolean;
 }) {
-  const id = useId();
+  return (
+    <div aria-hidden className={`pointer-events-none absolute ${className}`}>
+      {variant === "a" && (
+        <>
+          <Geo kind="quarter" tone="mintDeep" className="left-0 top-0 h-[80%] w-[72%]" />
+          <Geo kind="block" tone="lav" className="right-0 top-[6%] h-[30%] w-[32%] rotate-3" />
+          <Geo kind="half" tone="accent" className="bottom-0 left-[20%] h-[22%] w-[44%]" />
+        </>
+      )}
+      {variant === "b" && (
+        <>
+          <Geo kind="cross" tone="mintDeep" className="left-0 top-0 h-[84%] w-[68%] rotate-6" />
+          <Geo kind="capsule" tone="lav" className="bottom-[4%] right-0 h-[18%] w-[64%]" />
+          <Geo kind="quarterBr" tone="accent" className="right-[2%] top-[2%] h-[30%] w-[26%]" />
+        </>
+      )}
+      {variant === "c" && (
+        <>
+          <Geo kind="half" tone="lav" className="left-0 top-0 h-[46%] w-[82%]" />
+          <Geo kind="block" tone="mintDeep" className="bottom-[4%] left-[6%] h-[38%] w-[38%] -rotate-3" />
+          <Geo kind="capsule" tone="accent" className="bottom-0 right-0 h-[14%] w-[52%] rotate-6" />
+        </>
+      )}
+    </div>
+  );
+}
+
+/** Hand-drawn starburst of ink rays. */
+export function Burst({
+  tone = "ink",
+  rays = 14,
+  className = "",
+}: {
+  tone?: Tone;
+  rays?: number;
+  className?: string;
+}) {
+  const lines = [];
+  for (let i = 0; i < rays; i++) {
+    const a = (i / rays) * Math.PI * 2;
+    lines.push(
+      <line
+        key={i}
+        x1={50 + Math.cos(a) * 15}
+        y1={50 + Math.sin(a) * 15}
+        x2={50 + Math.cos(a) * 47}
+        y2={50 + Math.sin(a) * 47}
+      />,
+    );
+  }
   return (
     <svg
       viewBox="0 0 100 100"
-      className={`${className ?? ""} ${spin ? "anim-spin-slow" : ""}`}
+      fill="none"
+      stroke={FILLS[tone]}
+      strokeWidth={2.6}
+      strokeLinecap="round"
+      className={`pointer-events-none absolute ${className}`}
       aria-hidden="true"
       focusable="false"
     >
-      <defs>
-        <linearGradient id={id} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor={from} />
-          <stop offset="100%" stopColor={to} />
-        </linearGradient>
-      </defs>
-      <circle cx="50" cy="50" r="36" fill="none" stroke={`url(#${id})`} strokeWidth="9" />
+      {lines}
     </svg>
   );
 }
@@ -82,6 +152,10 @@ const SQUIGGLES = {
   loop: {
     d: "M6 24C24 6 40 42 60 24S96 6 116 24 152 42 172 24 208 6 234 22",
     vb: "0 0 240 44",
+  },
+  scrawl: {
+    d: "M5 27L23 11L18 29L41 12L35 31L59 14L53 31L78 16L73 30L94 18",
+    vb: "0 0 100 40",
   },
 } as const;
 
@@ -115,6 +189,7 @@ export function Squiggle({
         stroke={FILLS[tone]}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
+        strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
         pathLength={1}
         className={draw ? "anim-draw" : undefined}

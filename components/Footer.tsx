@@ -8,7 +8,7 @@ import {
   LinkedinLogo,
   XLogo,
 } from "@phosphor-icons/react";
-import { Blob } from "@/components/Decor";
+import { Burst, Geo } from "@/components/Decor";
 
 const columns = [
   {
@@ -52,19 +52,21 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-ink text-paper">
-      <Blob
+      <Geo
+        kind="quarter"
         tone="lav"
-        variant="signature"
-        className="anim-float-slow pointer-events-none absolute -right-16 -top-16 h-56 w-56 opacity-15"
+        blend="normal"
+        className="anim-float-slow pointer-events-none absolute -right-16 -top-16 h-56 w-56 opacity-20"
       />
-      <Blob
+      <Geo
+        kind="cross"
         tone="accent"
-        variant="twist"
-        className="anim-float pointer-events-none absolute -bottom-20 left-[15%] hidden h-48 w-48 opacity-10 lg:block"
+        blend="normal"
+        className="anim-float pointer-events-none absolute -bottom-20 left-[15%] hidden h-48 w-48 opacity-15 lg:block"
       />
-      <Blob
-        tone="mintDeep"
-        className="anim-drift pointer-events-none absolute -left-14 top-1/3 hidden h-32 w-32 opacity-10 lg:block"
+      <Burst
+        tone="paper"
+        className="anim-drift pointer-events-none absolute -left-10 top-1/3 hidden h-32 w-32 opacity-20 lg:block"
       />
 
       <div className="relative mx-auto max-w-6xl px-6 pt-16 md:px-10 md:pt-20">

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import { useReducedMotion } from "motion/react";
-import { Squiggle } from "@/components/Decor";
+import { Burst, Geo, Squiggle } from "@/components/Decor";
 
 interface Slide {
   id: string;
@@ -106,6 +106,23 @@ export default function Hero() {
       <div
         aria-hidden
         className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-ink/25"
+      />
+
+      <Geo
+        kind="quarter"
+        tone="mintDeep"
+        blend="normal"
+        className="pointer-events-none absolute -left-20 -top-20 hidden h-80 w-80 opacity-20 md:block"
+      />
+      <Geo
+        kind="capsule"
+        tone="lav"
+        blend="normal"
+        className="pointer-events-none absolute -right-10 top-24 hidden h-16 w-44 rotate-6 opacity-25 md:block"
+      />
+      <Burst
+        tone="paper"
+        className="anim-float pointer-events-none absolute -bottom-8 right-10 hidden h-32 w-32 opacity-30 md:block"
       />
 
       <div className="relative mx-auto w-full max-w-4xl px-4 py-32 text-center">

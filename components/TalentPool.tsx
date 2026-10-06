@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { CheckCircle, LinkSimple, PaperPlaneTilt } from "@phosphor-icons/react";
 import Reveal from "@/components/Reveal";
-import { Blob, Marked, Squiggle } from "@/components/Decor";
+import { Geo, Marked, Squiggle } from "@/components/Decor";
 
 type FormState = "idle" | "submitting" | "success";
 
@@ -56,10 +56,11 @@ export function TalentPoolPanel() {
       <Reveal>
         <div className="rounded-[2rem] bg-ink/5 p-1.5 ring-1 ring-ink/5">
           <div className="relative overflow-hidden rounded-[calc(2rem-0.375rem)] bg-ink text-paper">
-            <Blob
+            <Geo
+              kind="quarterBr"
               tone="accent"
-              variant="twist"
-              className="anim-float pointer-events-none absolute -right-12 top-24 h-36 w-36 opacity-15"
+              blend="normal"
+              className="anim-float pointer-events-none absolute -right-10 top-20 h-36 w-36 opacity-25"
             />
             <div className="relative h-44">
               <Image

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import Reveal from "@/components/Reveal";
-import { Blob, Marked } from "@/components/Decor";
+import { Burst, Cluster, Marked } from "@/components/Decor";
 import { TalentPoolPanel } from "@/components/TalentPool";
 import { ClientsPanel } from "@/components/Clients";
 
@@ -22,10 +22,13 @@ export default function ApplyTabs() {
       id="work-with-us"
       className="relative scroll-mt-28 overflow-hidden px-4 py-24 md:py-32"
     >
-      <Blob
-        tone="cream"
-        variant="twist"
-        className="anim-float-slow pointer-events-none absolute -left-16 top-20 hidden h-44 w-44 opacity-70 lg:block"
+      <Cluster
+        variant="a"
+        className="pointer-events-none absolute -left-16 top-14 hidden h-64 w-64 lg:block"
+      />
+      <Burst
+        tone="lav"
+        className="anim-float pointer-events-none absolute -right-8 bottom-16 hidden h-28 w-28 opacity-70 lg:block"
       />
       <div className="relative mx-auto max-w-6xl">
         <Reveal className="text-center">

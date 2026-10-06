@@ -7,7 +7,6 @@ import ApplyTabs from "@/components/ApplyTabs";
 import Testimonials from "@/components/Testimonials";
 import VideoSection from "@/components/VideoSection";
 import FAQ from "@/components/FAQ";
-import CtaBanner from "@/components/CtaBanner";
 
 export default function Home() {
   return (
@@ -21,7 +20,6 @@ export default function Home() {
       <Testimonials />
       <VideoSection />
       <FAQ />
-      <CtaBanner />
     </main>
   );
 }

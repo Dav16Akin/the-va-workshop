@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import Reveal from "@/components/Reveal";
-import { Blob, Marked, Squiggle } from "@/components/Decor";
+import { Cluster, Geo, Marked, Squiggle } from "@/components/Decor";
 
 const NEXT_COHORT_MONTH = "September 2026";
 
@@ -20,15 +20,14 @@ export default function Cohorts() {
       className="relative scroll-mt-28 overflow-hidden bg-mint-deep/35 px-4 py-24 md:py-32"
     >
       <div aria-hidden className="bg-dotgrid absolute inset-0 opacity-50" />
-      <Blob
-        tone="lav"
-        variant="signature"
-        className="anim-float-slow pointer-events-none absolute -left-14 top-24 hidden h-40 w-40 opacity-50 lg:block"
+      <Cluster
+        variant="c"
+        className="pointer-events-none absolute -left-14 top-16 hidden h-52 w-52 lg:block"
       />
-      <Blob
+      <Geo
+        kind="cross"
         tone="accent"
-        variant="twist"
-        className="anim-float pointer-events-none absolute -right-12 bottom-16 hidden h-36 w-36 opacity-40 lg:block"
+        className="anim-float pointer-events-none absolute -right-10 bottom-14 hidden h-40 w-40 opacity-70 lg:block"
       />
       <div className="relative mx-auto max-w-6xl">
         <Reveal className="text-center">
@@ -59,10 +58,11 @@ export default function Cohorts() {
               </div>
 
               <div className="relative flex flex-col justify-between bg-ink p-8 text-paper md:p-12">
-                <Blob
-                  tone="accent"
-                  variant="twist"
-                  className="anim-float pointer-events-none absolute -right-10 -top-10 h-32 w-32 opacity-20"
+                <Geo
+                  kind="quarterBr"
+                  tone="mintDeep"
+                  blend="normal"
+                  className="anim-float pointer-events-none absolute -right-8 -top-8 h-28 w-28 opacity-25"
                 />
                 <div className="relative">
                   <p className="text-sm font-medium text-lav">Next cohort</p>

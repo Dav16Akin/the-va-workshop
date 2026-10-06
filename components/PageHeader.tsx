@@ -1,5 +1,5 @@
 import Reveal from "@/components/Reveal";
-import { Blob, Squiggle } from "@/components/Decor";
+import { Burst, Cluster, Squiggle } from "@/components/Decor";
 
 export default function PageHeader({
   title,
@@ -10,14 +10,13 @@ export default function PageHeader({
 }) {
   return (
     <section className="relative -mt-16 overflow-hidden bg-mint-deep/35 px-4 pb-16 pt-28 md:pb-20 md:pt-36">
-      <Blob
+      <Burst
         tone="lav"
-        variant="signature"
-        className="anim-float-slow pointer-events-none absolute -left-12 top-4 h-28 w-28 opacity-40"
+        className="anim-float-slow pointer-events-none absolute -left-6 top-8 h-28 w-28 opacity-70"
       />
-      <Blob
-        tone="lav"
-        className="anim-float pointer-events-none absolute -right-10 bottom-0 h-24 w-24 opacity-50"
+      <Cluster
+        variant="a"
+        className="pointer-events-none absolute -right-10 -bottom-6 h-44 w-44 opacity-90"
       />
       <Reveal className="relative mx-auto max-w-6xl text-center">
         <h1 className="mx-auto mt-0 max-w-3xl text-4xl font-extrabold tracking-tight md:text-6xl">
