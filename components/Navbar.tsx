@@ -11,11 +11,14 @@ import { Squiggle } from "@/components/Decor";
 const links = [
   { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
-  { href: "/join", label: "Join" },
+  { href: "/join#talent-pool", label: "Talent Pool" },
   { href: "/hire", label: "Hire" },
   { href: "/store", label: "Store" },
   { href: "/contact", label: "Contact" },
 ];
+
+const isActive = (href: string, pathname: string) =>
+  pathname === href.split("#")[0];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -45,11 +48,11 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               className={`relative text-sm font-medium transition-colors duration-300 hover:text-ink ${
-                pathname === link.href ? "text-ink" : "text-ink-soft"
+                isActive(link.href, pathname) ? "text-ink" : "text-ink-soft"
               }`}
             >
               {link.label}
-              {pathname === link.href && (
+              {isActive(link.href, pathname) && (
                 <Squiggle
                   variant="underline"
                   tone="accent"
@@ -113,11 +116,11 @@ export default function Navbar() {
                     href={link.href}
                     onClick={() => setOpen(false)}
                     className={`relative inline-block text-lg font-semibold ${
-                      pathname === link.href ? "text-ink" : "text-ink"
+                      isActive(link.href, pathname) ? "text-ink" : "text-ink"
                     }`}
                   >
                     {link.label}
-                    {pathname === link.href && (
+                    {isActive(link.href, pathname) && (
                       <Squiggle
                         variant="underline"
                         tone="accent"

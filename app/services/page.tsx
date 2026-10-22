@@ -7,7 +7,7 @@ import Cohorts from "@/components/Cohorts";
 export const metadata: Metadata = {
   title: "Services & Trainings | The VA Workshop",
   description:
-    "Six offerings that take you from total beginner to placed VA: trainings, resume and portfolio building, 1-on-1 coaching, community and job leads, AI mock interviews, and progress tracking.",
+    "Six offerings that take you from total beginner to placed VA: live trainings, resume and portfolio building, 1-on-1 Career Discovery Sessions, community and job leads, plus AI mock interviews and progress tracking coming soon.",
 };
 
 export default function ServicesPage() {

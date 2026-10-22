@@ -3,13 +3,14 @@
 import { StarFour } from "@phosphor-icons/react";
 
 const items = [
-  "6-week programme",
-  "Live coaching calls",
-  "ATS resume & portfolio",
-  "Interview prep",
-  "Talent pool access",
-  "Naira-priced tools",
-  "Closing ceremony",
+  "AI & Automation",
+  "Calendar Management",
+  "Google Workspace",
+  "Documentation & SOPs",
+  "Zapier & Workflow Automation",
+  "Email & Inbox Management",
+  "Client Communication",
+  "Remote Work Tools",
 ];
 
 function Row() {

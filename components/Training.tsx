@@ -3,12 +3,14 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react";
 import Reveal from "@/components/Reveal";
 
 const tracks = [
   {
     title: "Executive Assistance",
+    slug: "executive-assistance",
     description:
       "Calendar control, inbox management, travel and reporting for founders and executives.",
     meta: "Beginner friendly, live online",
@@ -17,6 +19,7 @@ const tracks = [
   },
   {
     title: "AI Automation For VAs",
+    slug: "ai-automation-for-vas",
     description:
       "Build AI-powered automations that save your clients hours every single week.",
     meta: "Intermediate, project based",
@@ -25,6 +28,7 @@ const tracks = [
   },
   {
     title: "Legal Virtual Assistant",
+    slug: "legal-virtual-assistant",
     description:
       "Document preparation, filing and case support for law firms and legal teams.",
     meta: "Specialist, mentor led",
@@ -55,37 +59,36 @@ export default function Training() {
         <div className="mt-16 grid gap-6 lg:grid-cols-3">
           {tracks.map((track, i) => (
             <Reveal key={track.title} delay={i * 0.08} className={i === 1 ? "lg:mt-10" : undefined}>
-              <article className="group rounded-[2rem] bg-white p-2 shadow-soft ring-1 ring-ink/5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1.5">
-                <div className="rounded-[calc(2rem-0.5rem)] overflow-hidden">
-                  <div className="relative aspect-[4/3]">
-                    <Image
-                      src={track.image}
-                      alt={track.alt}
-                      fill
-                      sizes="(max-width: 1024px) 90vw, 30vw"
-                      className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
-                    />
-                  </div>
-                  <div className="p-6 md:p-7">
-                    <h3 className="text-xl font-bold tracking-tight">{track.title}</h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-ink-soft">
-                      {track.description}
-                    </p>
-                    <p className="mt-4 text-xs font-medium text-ink-soft">{track.meta}</p>
-                    <a
-                      href="#start"
-                      className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4"
-                    >
-                      Explore Training
-                      <ArrowRight
-                        size={15}
-                        weight="bold"
-                        className="transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1"
+              <Link href={`/programmes/${track.slug}`} className="group block h-full">
+                <article className="rounded-[2rem] bg-white p-2 shadow-soft ring-1 ring-ink/5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-1.5">
+                  <div className="rounded-[calc(2rem-0.5rem)] overflow-hidden">
+                    <div className="relative aspect-[4/3]">
+                      <Image
+                        src={track.image}
+                        alt={track.alt}
+                        fill
+                        sizes="(max-width: 1024px) 90vw, 30vw"
+                        className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
                       />
-                    </a>
+                    </div>
+                    <div className="p-6 md:p-7">
+                      <h3 className="text-xl font-bold tracking-tight">{track.title}</h3>
+                      <p className="mt-2.5 text-sm leading-relaxed text-ink-soft">
+                        {track.description}
+                      </p>
+                      <p className="mt-4 text-xs font-medium text-ink-soft">{track.meta}</p>
+                      <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4">
+                        Programme details
+                        <ArrowRight
+                          size={15}
+                          weight="bold"
+                          className="transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1"
+                        />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </article>
+                </article>
+              </Link>
             </Reveal>
           ))}
         </div>

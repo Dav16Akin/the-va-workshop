@@ -1,101 +1,81 @@
-import Image from "next/image";
 import Reveal from "@/components/Reveal";
+import { Geo, Marked, Squiggle } from "@/components/Decor";
 
 const steps = [
   {
-    title: "Sign Up",
-    description: "Create your free account in minutes.",
-    image: "/images/step-signup.png",
-    alt: "Laptop showing a simple sign-up form on a dark desk",
+    title: "Choose Your Programme",
+    description: "Select the training track that matches your career goals.",
   },
   {
-    title: "Choose A Track",
-    description: "Pick the track that fits your career goals.",
-    image: "/images/step-choose.png",
-    alt: "Person browsing a course catalog on a tablet",
+    title: "Register & Get Started",
+    description: "Join the upcoming cohort and get access to the programme.",
   },
   {
-    title: "Learn & Practice",
-    description: "Live classes, quizzes and real client-style projects.",
-    image: "/images/step-learn.png",
-    alt: "Student with headphones taking notes beside a laptop lesson",
+    title: "Learn Live",
+    description: "Attend live weekend classes and develop practical VA skills.",
   },
   {
-    title: "Get Certified",
-    description: "Graduate with a certificate and a polished portfolio.",
-    image: "/images/step-certified.png",
-    alt: "Hands holding a tablet displaying a certificate",
+    title: "Practise & Complete Your Capstone",
+    description:
+      "Complete assignments throughout the programme and submit your capstone project.",
+  },
+  {
+    title: "Get Certified & Keep Growing",
+    description:
+      "Students who meet the attendance, assignment/capstone requirements receive their certificate and can continue developing their careers through opportunities, resources and the VA Workshop community.",
   },
 ];
 
 export default function Journey() {
   return (
-    <section id="journey" className="scroll-mt-28 px-4 py-24 md:py-32">
-      <div className="mx-auto max-w-6xl">
+    <section id="journey" className="relative scroll-mt-28 overflow-hidden px-4 py-24 md:py-32">
+      <Geo
+        kind="quarter"
+        tone="lav"
+        className="anim-float-slow pointer-events-none absolute -left-16 top-16 hidden h-56 w-56 lg:block"
+      />
+      <div className="relative mx-auto max-w-5xl">
         <Reveal className="text-center">
           <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl">
-            Your journey in <span className="text-accent">four clear steps.</span>
+            Your journey in <Marked className="text-accent">five clear steps.</Marked>
           </h2>
           <p className="mx-auto mt-5 max-w-[55ch] text-lg leading-relaxed text-ink-soft">
-            From sign-up to certificate, every stage has one goal: making you
-            employable.
+            From choosing your programme to certification, every stage has one
+            goal: making you employable.
           </p>
         </Reveal>
 
-        <div className="relative mt-20">
-          <div
-            aria-hidden
-            className="absolute left-0 right-0 top-1/2 hidden h-0.5 -translate-y-1/2 bg-accent/50 lg:block"
+        <div className="relative mt-16">
+          <Squiggle
+            variant="growth"
+            tone="lav"
+            draw={false}
+            className="pointer-events-none absolute -right-6 top-0 hidden h-full w-24 opacity-60 lg:block"
           />
-          <div
-            aria-hidden
-            className="absolute bottom-0 left-[7px] top-0 w-0.5 bg-accent/40 lg:hidden"
-          />
-          <div className="grid gap-14 lg:grid-cols-4 lg:gap-8">
-            {steps.map((step, i) => {
-              const imageFirst = i % 2 === 0;
-              const image = (
-                <div className="relative mx-auto aspect-[4/3] w-full max-w-[240px] overflow-hidden rounded-[1.5rem] shadow-soft">
-                  <Image
-                    src={step.image}
-                    alt={step.alt}
-                    fill
-                    sizes="(max-width: 1024px) 240px, 240px"
-                    className="object-cover"
-                  />
-                </div>
-              );
-              const text = (
-                <div className={imageFirst ? "lg:mt-8" : "lg:mb-8"}>
-                  <h3 className="text-xl font-bold tracking-tight">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                    {step.description}
-                  </p>
-                </div>
-              );
-              return (
-                <Reveal key={step.title} delay={i * 0.08} className="relative pl-8 lg:pl-0">
-                  <span
-                    aria-hidden
-                    className="absolute left-0 top-1 h-3.5 w-3.5 rounded-full bg-accent ring-4 ring-paper lg:left-0 lg:top-1/2 lg:-translate-y-1/2"
-                  />
-                  <div className="flex h-full flex-col justify-between gap-8">
-                    {imageFirst ? (
-                      <>
-                        {image}
-                        {text}
-                      </>
-                    ) : (
-                      <>
-                        {text}
-                        {image}
-                      </>
-                    )}
+          <ol className="relative list-none p-0">
+            {steps.map((step, i) => (
+              <Reveal key={step.title} delay={i * 0.06}>
+                <li
+                  className={`grid gap-4 border-t border-ink/10 py-8 md:grid-cols-[7rem_1fr] md:gap-8 md:py-10 ${
+                    i % 2 === 1 ? "md:pl-16" : ""
+                  }`}
+                >
+                  <span className="text-5xl font-extrabold leading-none tracking-tight text-accent/30 md:text-6xl">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="text-2xl font-extrabold tracking-tight md:text-3xl">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 max-w-[52ch] text-base leading-relaxed text-ink-soft">
+                      {step.description}
+                    </p>
                   </div>
-                </Reveal>
-              );
-            })}
-          </div>
+                </li>
+              </Reveal>
+            ))}
+            <li aria-hidden className="border-t border-ink/10" />
+          </ol>
         </div>
       </div>
     </section>

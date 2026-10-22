@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import {
+  ArrowUpRight,
   ChartLineUp,
   FileText,
   GraduationCap,
@@ -11,13 +13,17 @@ import {
 import Reveal from "@/components/Reveal";
 import { Cluster, Geo, Marked } from "@/components/Decor";
 
+// Swap for the live WhatsApp community invite link when available.
+const WHATSAPP_COMMUNITY_URL = "https://chat.whatsapp.com/thevaworkshop";
+
 const offerings = [
   {
     title: "Trainings",
     description:
-      "Pre-recorded and live lessons covering every skill you need to work as a professional VA.",
+      "Live training sessions covering the practical skills and tools you need to work confidently as a professional VA. Every session is recorded so enrolled students can revisit the lessons later.",
     icon: GraduationCap,
     tint: "bg-mint-deep",
+    href: "/services#training",
   },
   {
     title: "Resume & portfolio building",
@@ -25,13 +31,15 @@ const offerings = [
       "An ATS-optimised resume and a portfolio that wins clients, even with zero prior experience.",
     icon: FileText,
     tint: "bg-lav",
+    href: "/store",
   },
   {
-    title: "1-on-1 coaching sessions",
+    title: "1-on-1 Career Discovery Session",
     description:
-      "Weekly live coaching calls with experienced VAs who walked the same path you are on, plus direct feedback on your resume, portfolio, and pitches.",
+      "A paid 1-on-1 session with the founder to discuss your career goals, career challenges, CV, portfolio and next steps in your remote-work journey.",
     icon: VideoCamera,
     tint: "bg-cream",
+    href: "/book",
   },
   {
     title: "Community & job leads",
@@ -39,21 +47,24 @@ const offerings = [
       "An active alumni network sharing job leads, referrals, and peer feedback.",
     icon: Users,
     tint: "bg-white",
+    href: WHATSAPP_COMMUNITY_URL,
   },
   {
-    title: "AI mock interview preparation",
+    title: "AI Mock Interview Preparation",
     description:
-      "Practice interviews so you walk into every client call prepared.",
+      "Coming soon. We're developing a smarter way to help VAs practise and prepare for remote job interviews.",
     icon: Robot,
     tint: "bg-mint-deep/60",
+    href: "/coming-soon",
   },
   {
-    title: "Progress tracking & analytics",
+    title: "Progress Tracking & Analytics",
     description:
-      "Clear milestones and accountability check-ins for job hunters, so you always know where you stand.",
+      "Coming soon. We're developing tools to help VAs track their learning and career progress.",
     icon: ChartLineUp,
     tint: "bg-ink",
     dark: true,
+    href: "/coming-soon",
   },
 ];
 
@@ -84,35 +95,58 @@ export default function Offerings() {
         </Reveal>
 
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {offerings.map((offering, i) => (
-            <Reveal key={offering.title} delay={i * 0.06}>
-              <article className="h-full rounded-[2rem] bg-ink/5 p-1.5 ring-1 ring-ink/5">
-                <div className={`h-full rounded-[calc(2rem-0.375rem)] p-8 ${offering.tint}`}>
-                  <span
-                    className={`flex h-12 w-12 items-center justify-center rounded-full ${
-                      offering.dark ? "bg-paper/10 text-mint-deep" : "bg-white text-accent-deep"
-                    }`}
-                  >
-                    <offering.icon size={20} weight="duotone" />
-                  </span>
-                  <h3
-                    className={`mt-6 text-xl font-bold tracking-tight ${
-                      offering.dark ? "text-paper" : ""
-                    }`}
-                  >
-                    {offering.title}
-                  </h3>
-                  <p
-                    className={`mt-3 text-sm leading-relaxed ${
-                      offering.dark ? "text-paper/70" : "text-ink-soft"
-                    }`}
-                  >
-                    {offering.description}
-                  </p>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+          {offerings.map((offering, i) => {
+            const external = offering.href.startsWith("http");
+            const linkProps = external
+              ? { target: "_blank", rel: "noreferrer" }
+              : {};
+            const Comp = external ? "a" : Link;
+            return (
+              <Reveal key={offering.title} delay={i * 0.06}>
+                <Comp
+                  href={offering.href}
+                  {...linkProps}
+                  className="group block h-full"
+                >
+                  <article className="h-full rounded-[2rem] bg-ink/5 p-1.5 ring-1 ring-ink/5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-1.5">
+                    <div
+                      className={`relative h-full rounded-[calc(2rem-0.375rem)] p-8 ${offering.tint}`}
+                    >
+                      <span
+                        aria-hidden
+                        className={`absolute right-6 top-6 flex h-9 w-9 items-center justify-center rounded-full opacity-0 transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-100 ${
+                          offering.dark ? "bg-paper/10 text-mint-deep" : "bg-white text-accent-deep"
+                        }`}
+                      >
+                        <ArrowUpRight size={15} weight="bold" />
+                      </span>
+                      <span
+                        className={`flex h-12 w-12 items-center justify-center rounded-full ${
+                          offering.dark ? "bg-paper/10 text-mint-deep" : "bg-white text-accent-deep"
+                        }`}
+                      >
+                        <offering.icon size={20} weight="duotone" />
+                      </span>
+                      <h3
+                        className={`mt-6 text-xl font-bold tracking-tight ${
+                          offering.dark ? "text-paper" : ""
+                        }`}
+                      >
+                        {offering.title}
+                      </h3>
+                      <p
+                        className={`mt-3 text-sm leading-relaxed ${
+                          offering.dark ? "text-paper/70" : "text-ink-soft"
+                        }`}
+                      >
+                        {offering.description}
+                      </p>
+                    </div>
+                  </article>
+                </Comp>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>

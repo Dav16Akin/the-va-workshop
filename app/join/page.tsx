@@ -7,7 +7,7 @@ import TalentPool from "@/components/TalentPool";
 export const metadata: Metadata = {
   title: "Join a Cohort | The VA Workshop",
   description:
-    "Your four-step journey to a hired VA career: train, build, apply, and get hired. See upcoming cohort dates and join the talent pool.",
+    "Your five-step journey to a hired VA career: choose, register, learn live, complete your capstone, and get certified. See upcoming cohort dates and join the talent pool.",
 };
 
 export default function JoinPage() {
@@ -15,7 +15,7 @@ export default function JoinPage() {
     <main>
       <PageHeader
         title="Your journey to a hired VA career."
-        lede="Four steps, six weeks, and a closing ceremony you will actually want to attend. Here is exactly how it works."
+        lede="Five steps, six weeks, and a closing ceremony you will actually want to attend. Here is exactly how it works."
       />
       <Journey />
       <Cohorts />

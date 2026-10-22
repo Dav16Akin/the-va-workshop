@@ -7,7 +7,7 @@ import Reveal from "@/components/Reveal";
 const FAQS = [
   {
     q: "How does the VA Workshop programme work?",
-    a: "The programme runs over 6 weeks in a cohort model, 4 weeks of training followed by a 2-week capstone project and closing ceremony. You get pre-recorded lessons, live coaching calls, templates, and community access. By the end, you have a portfolio, resume, and a client-acquisition system ready to go.",
+    a: "A 6-week practical training programme designed to help you develop the skills, tools and professional capabilities needed to work as a Virtual Assistant. Weeks 1 to 4 are live classes held on Saturdays and Sundays, weeks 5 to 6 are your capstone project period, and the programme ends with a closing ceremony and certification for eligible participants.",
   },
   {
     q: "Is the programme suitable for beginners?",
@@ -18,12 +18,12 @@ const FAQS = [
     a: "No degree or formal experience is required. If you have a laptop, a stable internet connection, and the drive to build something real, you have what you need to start.",
   },
   {
-    q: "Are the sessions live, or can I watch at my own pace?",
-    a: "Both. Core lessons are pre-recorded so you can learn on your schedule. Live group coaching calls are held weekly so you can ask questions, get feedback, and stay accountable.",
+    q: "Are the training sessions live?",
+    a: "Yes. Our classes are delivered live on Saturdays and Sundays during the first four weeks of the programme. Sessions are also recorded so enrolled students can revisit the lessons later.",
   },
   {
     q: "Do you provide coaching and mentorship?",
-    a: "Yes. Every student gets weekly live coaching sessions, community access, and direct feedback on their resume, portfolio, and pitches from experienced VA mentors.",
+    a: "We do not provide weekly 1-on-1 coaching sessions as part of the cohort. However, you can book a paid 1-on-1 Career Discovery Session with the founder to discuss your career goals, challenges, CV, portfolio and next steps.",
   },
   {
     q: "How soon can I land my first client?",

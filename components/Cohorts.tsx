@@ -1,15 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import Reveal from "@/components/Reveal";
 import { Cluster, Geo, Marked, Squiggle } from "@/components/Decor";
 
-const NEXT_COHORT_MONTH = "September 2026";
+const NEXT_COHORT_MONTH = "November 2026";
 
 const facts = [
   { value: "6 Weeks", label: "Duration" },
-  { value: "Live + Self-Paced", label: "Format" },
+  { value: "Live weekends", label: "Format" },
   { value: "Limited Spots", label: "Group Size" },
 ];
 
@@ -35,8 +36,9 @@ export default function Cohorts() {
             Join the next <Marked className="text-accent">cohort.</Marked>
           </h2>
           <p className="mx-auto mt-5 max-w-[52ch] text-lg leading-relaxed text-ink-soft">
-            We run cohorts in small groups so every student gets real attention
-            and support. Spots fill quickly, secure yours early.
+            Our 6-week programmes combine live weekend classes, practical
+            assignments and a capstone project to help you develop skills you
+            can apply in the real world.
           </p>
         </Reveal>
 
@@ -78,9 +80,14 @@ export default function Cohorts() {
                     </span>
                   </p>
                   <p className="mt-8 max-w-[40ch] text-base leading-relaxed text-paper/65">
-                    Four weeks of training, two weeks on your capstone, and a
-                    closing ceremony. Recorded lessons plus weekly live calls,
-                    in a small group built for real support.
+                    4 weeks of live weekend classes, followed by 2 weeks to
+                    complete your capstone project. Classes are recorded so
+                    enrolled students can revisit the lessons.
+                  </p>
+                  <p className="mt-4 max-w-[40ch] text-base leading-relaxed text-paper/65">
+                    Assignments are given and graded throughout the programme
+                    to ensure students understand and can apply what they
+                    learn.
                   </p>
                 </div>
 
@@ -98,28 +105,33 @@ export default function Cohorts() {
                 </dl>
 
                 <div className="relative mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-                  <a
-                    href="mailto:team@thevaworkshop.com?subject=Waitlist%20%E2%80%94%20September%202026%20Cohort"
+                  <Link
+                    href="/register"
                     className="group flex items-center gap-2 rounded-full bg-paper py-3 pl-6 pr-2.5 text-sm font-bold text-ink transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
                   >
-                    Join the waitlist
+                    Register now
                     <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink/5 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-px group-hover:translate-x-0.5 group-hover:scale-105">
                       <ArrowUpRight size={15} weight="bold" />
                     </span>
-                  </a>
-                  <a
-                    href="mailto:team@thevaworkshop.com?subject=Registration%20%E2%80%94%20September%202026%20Cohort"
+                  </Link>
+                  <Link
+                    href="/waitlist"
                     className="relative text-sm font-semibold text-paper/75 transition-colors duration-300 hover:text-paper"
                   >
-                    Register now
+                    Join the waitlist
                     <Squiggle
                       variant="underline"
                       tone="lav"
                       strokeWidth={2}
                       className="absolute -bottom-1.5 left-0 h-2 w-full"
                     />
-                  </a>
+                  </Link>
                 </div>
+                <p className="relative mt-6 max-w-[44ch] text-xs leading-relaxed text-paper/50">
+                  Don't see a date for your preferred programme yet? Join the
+                  waitlist and we'll notify you when the next cohort is
+                  announced.
+                </p>
               </div>
             </div>
           </div>

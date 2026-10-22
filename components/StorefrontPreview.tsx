@@ -238,8 +238,7 @@ export default function StorefrontPreview() {
               <Marked className="text-accent">succeed.</Marked>
             </h2>
             <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-ink-soft">
-              VA templates and remote work equipment, in one place. All prices
-              in Naira.
+              VA templates and remote work equipment, in one place.
             </p>
           </div>
           <Link

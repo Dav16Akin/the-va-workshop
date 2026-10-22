@@ -13,8 +13,8 @@ export default function VideoSection() {
             See how we train <span className="text-accent">our VAs.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-[52ch] text-lg leading-relaxed text-ink-soft">
-            A look inside our live cohort sessions, the curriculum, and real
-            student workspaces.
+            A look inside our live training sessions, learning activities and
+            the skills we teach.
           </p>
         </Reveal>
 
