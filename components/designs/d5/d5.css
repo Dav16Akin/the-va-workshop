@@ -1,0 +1,201 @@
+/* Design 5: Midnight (Copilot Money style reference, re-coloured to the VA Workshop blues).
+   Everything is namespaced d5- so it can never leak into the live site or other variants. */
+
+.d5-root {
+  --d5-canvas: #020a1f;
+  --d5-deep: #041232;
+  --d5-indigo: #051a4b;
+  --d5-cobalt: #0b2a66;
+  --d5-text: #f4f7fc;
+  --d5-fog: #c6cfdf;
+  --d5-mist: #98a3b8;
+  --d5-steel: #16305a;
+  --d5-blue: #4a90e2;
+  --d5-blue-deep: #2f6fbb;
+  --d5-lav: #97b6e5;
+  --d5-ink: #051a4b;
+
+  --d5-inset: rgba(255, 255, 255, 0.16) 4px 4px 16px -4px inset,
+    rgba(0, 0, 0, 0.2) -4px -4px 16px -4px inset,
+    rgba(255, 255, 255, 0.08) 4px 4px 8px 0px inset,
+    rgba(255, 255, 255, 0.4) 1px 1px 1px -0.5px inset;
+  --d5-glow-inset: rgba(74, 144, 226, 0.1) 0px 0px 12px 0px inset,
+    rgba(0, 0, 0, 0.32) 0px -4px 8px 0px inset;
+
+  background: var(--d5-canvas);
+  color: var(--d5-text);
+  color-scheme: dark;
+  font-family: var(--font-d5-body), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 200;
+  font-feature-settings: "cv11", "ss01";
+}
+
+.d5-root ::selection {
+  background: rgb(74 144 226 / 0.4);
+}
+
+/* Display face: Space Grotesk stands in for Jokker */
+.d5-display {
+  font-family: var(--font-d5-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+
+.d5-h2 {
+  font-family: var(--font-d5-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(2.25rem, 4.6vw, 4rem);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+}
+
+/* Secondary display tier: thin body face at large sizes (weight 100 only from 22px up) */
+.d5-thin-xl {
+  font-weight: 100;
+  font-size: clamp(1.5rem, 2.8vw, 2.375rem);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+/* Eyebrow / kicker: wide-tracked uppercase signage */
+.d5-eyebrow {
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: clamp(1.125rem, 1.9vw, 1.75rem);
+  line-height: 1;
+  color: var(--d5-blue);
+}
+
+/* Neomorphic card: depth from inset light, never a drop shadow */
+.d5-card {
+  background: var(--d5-deep);
+  border-radius: 24px;
+  border: 1px solid rgb(22 48 90 / 0.55);
+  box-shadow: var(--d5-inset);
+}
+
+.d5-card-glow {
+  background: var(--d5-indigo);
+  border-radius: 24px;
+  border: 1px solid rgb(22 48 90 / 0.55);
+  box-shadow: var(--d5-glow-inset), var(--d5-inset);
+}
+
+.d5-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  border-radius: 16px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.d5-btn:active {
+  transform: scale(0.98);
+}
+
+.d5-btn:focus-visible,
+.d5-focus:focus-visible {
+  outline: 2px solid var(--d5-lav);
+  outline-offset: 3px;
+}
+
+.d5-btn-primary {
+  background: var(--d5-blue-deep);
+  color: #ffffff;
+  box-shadow: rgba(255, 255, 255, 0.22) 0 1px 0 inset;
+}
+
+.d5-btn-primary:hover {
+  background: #2a64aa;
+}
+
+.d5-btn-white {
+  background: var(--d5-text);
+  color: var(--d5-ink);
+  font-weight: 500;
+}
+
+.d5-btn-white:hover {
+  background: #ffffff;
+}
+
+.d5-btn-ghost {
+  border: 1px solid rgb(244 247 252 / 0.7);
+  color: var(--d5-text);
+}
+
+.d5-btn-ghost:hover {
+  border-color: var(--d5-text);
+  background: rgb(244 247 252 / 0.06);
+}
+
+/* Floating category tag: soft 3D volume via inner highlight */
+.d5-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: rgba(255, 255, 255, 0.45) 0 1px 0 inset,
+    rgba(5, 26, 75, 0.22) 0 -6px 12px -4px inset;
+}
+
+/* Duotone: grayscale photo, blacks lifted to navy, mids pushed to brand blue */
+.d5-duotone {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--d5-indigo);
+  isolation: isolate;
+}
+
+.d5-duotone img {
+  filter: grayscale(1) contrast(1.08) brightness(0.92);
+}
+
+.d5-duotone::before,
+.d5-duotone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.d5-duotone::before {
+  background: var(--d5-ink);
+  mix-blend-mode: screen;
+}
+
+.d5-duotone::after {
+  background: var(--d5-blue);
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
+
+/* Horizontal scroll-snap rail without a visible scrollbar */
+.d5-rail {
+  scrollbar-width: none;
+}
+
+.d5-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.d5-hairline {
+  border-color: rgb(22 48 90 / 0.7);
+}

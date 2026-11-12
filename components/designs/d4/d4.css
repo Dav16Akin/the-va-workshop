@@ -1,0 +1,47 @@
+/* Design 4: "Warm Guide" (Fruitful reference, re-keyed to the VA Workshop blues).
+   Tokens
+   --d4-primary  #2f6fbb  filled primary action (replaces Forest Floor)
+   --d4-deep     #051a4b  hover / deep accent (replaces Deep Moss)
+   --d4-leaf     #4a90e2  icons + decorative marks (replaces Vivid Leaf)
+   --d4-mint     #dce9f9  caption labels, tag pills (replaces Mint Wash)
+   --d4-warm     #eef4fc  dominant tinted surface (replaces Apricot Cream)
+   --d4-stroke   #97b6e5  decorative strokes (replaces Sandstone)
+*/
+.d4-root {
+  font-family: var(--font-d4), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01";
+  background: #ffffff;
+  color: #0b0f1a;
+}
+
+.d4-root ::selection {
+  background: #dce9f9;
+  color: #051a4b;
+}
+
+.d4-display {
+  letter-spacing: -0.019em;
+}
+
+.d4-heading {
+  letter-spacing: -0.01em;
+}
+
+.d4-tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The single elevated-card shadow allowed by the system */
+.d4-elevated {
+  box-shadow:
+    rgba(5, 26, 75, 0.05) 0px 25px 16px 0px,
+    rgba(5, 26, 75, 0.1) 0px 10px 10px 0px,
+    rgba(5, 26, 75, 0.1) 0px 3px 6px 0px;
+}
+
+.d4-scroll-row {
+  scrollbar-width: none;
+}
+.d4-scroll-row::-webkit-scrollbar {
+  display: none;
+}

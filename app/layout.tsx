@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ScrollToTop from "@/components/ScrollToTop";
+import localFont from "next/font/local";
+
+// Fonts are self-hosted in app/fonts (OFL, from Google Fonts) so dev and
+// builds never depend on reaching fonts.gstatic.com.
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
+const jakarta = localFont({
+  src: "./fonts/plus-jakarta-sans-var.woff2",
+  weight: "200 800",
   variable: "--font-jakarta",
   display: "swap",
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -22,12 +24,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${jakarta.variable} antialiased`}>
-      <body className="bg-paper font-sans text-ink">
-        <ScrollToTop />
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

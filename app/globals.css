@@ -28,7 +28,7 @@ html {
   }
 }
 
-body {
+body:has(.site-shell) {
   background: #fcfcfa;
   color: var(--color-ink);
 }
@@ -37,8 +37,9 @@ body {
   background: rgb(74 144 226 / 0.25);
 }
 
-/* Paper grain: two noise scales so large surfaces read as printed stock, not flat colour */
-body::after {
+/* Paper grain: two noise scales so large surfaces read as printed stock, not flat colour.
+   Scoped to the live site so the design variants render without it. */
+body:has(.site-shell)::after {
   content: "";
   position: fixed;
   inset: 0;
@@ -183,6 +184,63 @@ body::after {
     stroke-dashoffset: 0;
   }
   .anim-rise {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Magic UI + Aceternity component animations (components/ui/*).
+   Keyframes are namespaced "ui-" so they never collide with the live
+   site's own "marquee" keyframes above.
+   ------------------------------------------------------------------ */
+@theme {
+  --animate-marquee: ui-marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: ui-marquee-vertical var(--duration) linear infinite;
+  --animate-shiny-text: ui-shiny-text 8s infinite;
+  --animate-scroll: ui-scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+}
+
+@keyframes ui-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes ui-marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes ui-shiny-text {
+  0%,
+  90%,
+  100% {
+    background-position: calc(-100% - var(--shiny-width)) 0;
+  }
+  30%,
+  60% {
+    background-position: calc(100% + var(--shiny-width)) 0;
+  }
+}
+
+@keyframes ui-scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-vertical,
+  .animate-shiny-text,
+  .animate-scroll {
     animation: none;
   }
 }
