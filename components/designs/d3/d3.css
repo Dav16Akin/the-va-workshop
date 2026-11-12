@@ -1,0 +1,90 @@
+/* Design 3: editorial / literary system. Classes are namespaced "d3-". */
+
+.d3-root {
+  --d3-canvas: #fefffc;
+  --d3-paper: #ffffff;
+  --d3-linen: #f9faf7;
+  --d3-graphite: #2c2c2c;
+  --d3-charcoal: #444141;
+  --d3-ash: #646464;
+  --d3-mist: #dee2de;
+  --d3-twilight: #282834;
+  --d3-dusk: #1f1f29;
+  --d3-accent: #4a90e2;
+  --d3-accent-deep: #2f6fbb;
+  --d3-ink: #051a4b;
+  --d3-lav: #97b6e5;
+  --d3-pale: #eef4fc;
+  background: var(--d3-canvas);
+  color: var(--d3-charcoal);
+  font-family: var(--d3-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.d3-serif {
+  font-family: var(--d3-serif), ui-serif, Georgia, serif;
+  font-weight: 400;
+  font-feature-settings: "liga" 0;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.d3-display {
+  font-size: clamp(2.5rem, 4.6vw, 3.375rem); /* up to 54px */
+}
+
+.d3-heading {
+  font-size: clamp(2.125rem, 3.6vw, 3rem); /* up to 48px */
+}
+
+.d3-heading-sm {
+  font-size: 1.6875rem; /* 27px */
+  letter-spacing: -0.04em;
+  line-height: 1.3;
+}
+
+/* Frosted glass: web approximation, not an official material. */
+.d3-glass {
+  background: rgb(5 26 75 / 0.28);
+  border: 1px solid rgb(255 255 255 / 0.28);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22);
+}
+
+.d3-glass-light {
+  background: rgb(255 255 255 / 0.72);
+  border: 1px solid var(--d3-mist);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .d3-glass {
+    background: rgb(5 26 75 / 0.92);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .d3-glass-light {
+    background: #ffffff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+.d3-card {
+  background: var(--d3-paper);
+  border: 1px solid var(--d3-mist);
+  box-shadow: rgb(0 0 0 / 0.08) 0 1px 1px 0, rgb(0 0 0 / 0.08) 0 4px 5px 0;
+}
+
+.d3-diagram {
+  box-shadow: rgb(0 0 0 / 0.05) 0 1px 8px 0;
+}
+
+.d3-scroll-x {
+  scrollbar-width: none;
+}
+.d3-scroll-x::-webkit-scrollbar {
+  display: none;
+}

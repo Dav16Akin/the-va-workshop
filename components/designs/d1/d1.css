@@ -1,0 +1,108 @@
+/* Design 1 "Ledger": Mollie style reference, re-mapped to the brand blues.
+   Paper canvas, near-black type, pale cool surfaces, navy pills and panels. */
+.d1-root {
+  --d1-paper: #ffffff;
+  --d1-ink: #0b0f1a;
+  --d1-near: #111111;
+  --d1-graphite: #595959;
+  --d1-soft: #8a8a8a;
+  --d1-surface: #f3f6fb; /* replaces warm Oat */
+  --d1-line: #e6ecf5;
+  --d1-navy: #051a4b; /* replaces Ledger Brown */
+  --d1-panel: #04112f; /* replaces Espresso */
+  --d1-link: #2f6fbb; /* replaces Copper */
+  --d1-accent: #4a90e2; /* replaces Terracotta disc */
+  --d1-lav: #97b6e5;
+
+  background: var(--d1-paper);
+  color: var(--d1-ink);
+  font-family: var(--font-d1-sans), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  letter-spacing: -0.01em;
+}
+
+.d1-root ::selection {
+  background: rgb(74 144 226 / 0.25);
+}
+
+.d1-display {
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.d1-mono {
+  font-family: var(--font-d1-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.d1-serif {
+  font-family: var(--font-d1-serif), Georgia, serif;
+  letter-spacing: -0.006em;
+}
+
+.d1-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding: 0.875rem 1.5rem;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.012em;
+  transition:
+    background-color 200ms ease,
+    transform 200ms ease;
+}
+.d1-pill:active {
+  transform: scale(0.98);
+}
+.d1-pill-navy {
+  background: var(--d1-navy);
+  color: #fff;
+  box-shadow: rgb(255 255 255 / 0.1) 0 1px 0 0 inset;
+}
+.d1-pill-navy:hover {
+  background: #0a2a6e;
+}
+.d1-pill-pale {
+  background: var(--d1-surface);
+  color: var(--d1-ink);
+}
+.d1-pill-pale:hover {
+  background: #e6edf8;
+}
+.d1-pill-light {
+  background: #fff;
+  color: var(--d1-ink);
+}
+.d1-pill-light:hover {
+  background: #e9eff9;
+}
+
+.d1-link {
+  color: var(--d1-link);
+  font-weight: 500;
+  text-underline-offset: 4px;
+}
+.d1-link:hover {
+  text-decoration: underline;
+}
+
+.d1-focus:focus-visible,
+.d1-root a:focus-visible,
+.d1-root button:focus-visible {
+  outline: 2px solid var(--d1-accent);
+  outline-offset: 3px;
+}
+
+.d1-noscroll {
+  scrollbar-width: none;
+}
+.d1-noscroll::-webkit-scrollbar {
+  display: none;
+}

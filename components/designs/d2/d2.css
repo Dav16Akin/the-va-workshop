@@ -1,0 +1,71 @@
+/* Design 2 (Notion reference), re-coloured to the VA Workshop blues.
+   Everything is namespaced under .d2-root so it never leaks into the live site. */
+
+.d2-root {
+  --d2-canvas: #f6f5f4;
+  --d2-card: #ffffff;
+  --d2-hair: rgba(0, 0, 0, 0.08);
+  --d2-ink: rgba(0, 0, 0, 0.95);
+  --d2-body: #615d59;
+  --d2-muted: rgba(0, 0, 0, 0.6);
+  --d2-blue: #4a90e2;
+  --d2-blue-deep: #2f6fbb;
+  --d2-navy: #051a4b;
+  --d2-lav: #97b6e5;
+  --d2-pale: #eef4fc;
+  --d2-tint: #dce9f9;
+
+  font-family: var(--font-d2-sans), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "lnum";
+  background: var(--d2-canvas);
+  color: var(--d2-ink);
+}
+
+.d2-serif {
+  font-family: var(--font-d2-serif), Georgia, serif;
+}
+
+/* Display scale: aggressive negative tracking, per the reference */
+.d2-display-lg {
+  font-size: clamp(2.6rem, 6.4vw, 4.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+
+.d2-display {
+  font-size: clamp(2.1rem, 4.4vw, 3.375rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+
+.d2-heading-sm {
+  font-size: 1.375rem;
+  line-height: 1.27;
+  letter-spacing: -0.011em;
+  font-weight: 700;
+}
+
+.d2-root :focus-visible {
+  outline: 2px solid var(--d2-blue-deep);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.d2-nav-shadow {
+  box-shadow:
+    0px 0.7px 1.462px 0px rgb(0 0 0 / 0.015),
+    0px 3px 9px 0px rgb(0 0 0 / 0.03);
+}
+
+.d2-mock-shadow {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.d2-scroll-row {
+  scrollbar-width: none;
+}
+.d2-scroll-row::-webkit-scrollbar {
+  display: none;
+}
