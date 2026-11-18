@@ -87,6 +87,8 @@ export function AnimatedGridPattern({
 
   useEffect(() => {
     if (dimensions.width && dimensions.height) {
+      // Squares depend on measured size, so they are generated after layout.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSquares(generateSquares(numSquares))
     }
   }, [dimensions.width, dimensions.height, generateSquares, numSquares])

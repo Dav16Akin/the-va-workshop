@@ -1,1 +1,105 @@
 /* Design 2 tokens and scoped styles. Prefix every token with d2- */
+
+@theme {
+  --color-d2-obsidian: #09090b;
+  --color-d2-graphite: #18181b;
+  --color-d2-slate: #27272a;
+  --color-d2-iron: #3f3f46;
+  --color-d2-steel: #52525b;
+  --color-d2-fog: #71717a;
+  --color-d2-mist: #d4d4d8;
+  --color-d2-cloud: #ececee;
+  --color-d2-paper: #f4f4f5;
+  --color-d2-snow: #ffffff;
+  --color-d2-electric: #0b5cff;
+  --color-d2-sky: #7cc0ff;
+
+  --font-d2-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-d2-card: 36px;
+  --radius-d2-tray: 44px;
+  --radius-d2-btn: 14px;
+  --radius-d2-badge: 12px;
+
+  --shadow-d2-obsidian:
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.5), inset 0 9px 14px -5px rgba(117, 123, 133, 0.4),
+    0 0 0 1.5px #2c2e34, 0 4px 6px rgba(0, 0, 0, 0.14);
+  --shadow-d2-glass: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 24px 48px -24px rgba(9, 9, 11, 0.35);
+}
+
+.d2 {
+  font-family: var(--font-d2-sans);
+  background: var(--color-d2-snow);
+  color: var(--color-d2-graphite);
+  overflow-x: clip;
+}
+
+.d2 ::selection {
+  background: var(--color-d2-electric);
+  color: #fff;
+}
+
+/* Glossy obsidian button */
+.d2 .d2-btn-obsidian {
+  background: var(--color-d2-obsidian);
+  color: #fff;
+  box-shadow: var(--shadow-d2-obsidian);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+.d2 .d2-btn-obsidian:hover {
+  background: #1d1d21;
+}
+.d2 .d2-btn-obsidian:active {
+  transform: translateY(1px);
+}
+
+/* Glossy snow button (for dark surfaces) */
+.d2 .d2-btn-snow {
+  background: linear-gradient(180deg, #ffffff 0%, #ececee 100%);
+  color: var(--color-d2-obsidian);
+  box-shadow:
+    inset 0 -1px 0 rgba(9, 9, 11, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.4),
+    0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+.d2 .d2-btn-snow:active {
+  transform: translateY(1px);
+}
+
+/* Frosted glass panel over photography */
+.d2 .d2-glass {
+  background: rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: var(--shadow-d2-glass);
+}
+
+/* Grayscale logo strip */
+.d2 .d2-logo {
+  filter: grayscale(1);
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+.d2 .d2-logo:hover {
+  opacity: 0.9;
+}
+
+/* Soft fade at marquee edges */
+.d2 .d2-fade-x {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .d2 .animate-marquee,
+  .d2 .animate-marquee-vertical {
+    animation: none;
+  }
+  /* Frozen marquees become swipeable rows so no card is unreachable */
+  .d2 .d2-marquee {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}

@@ -1,1 +1,184 @@
 /* Design 1 tokens and scoped styles. Prefix every token with d1- */
+
+@theme inline {
+  --color-d1-canvas: #fdfcfc;
+  --color-d1-taupe: #f5f3f1;
+  --color-d1-stone: #ebe8e4;
+  --color-d1-ink: #000000;
+  --color-d1-graphite: #44403b;
+  --color-d1-smoke: #777169;
+  --color-d1-ash: #a59f97;
+  --color-d1-cobalt: #1238ff;
+  --color-d1-azure: #5aa0ff;
+  --color-d1-ice: #c4dbff;
+  --color-d1-navy: #06134a;
+
+  --font-d1-display: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-d1-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-d1-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --shadow-d1-whisper: 0 0 1px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.d1 {
+  background: #fdfcfc;
+  color: #000;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  overflow-x: clip;
+}
+
+.d1 .d1-display {
+  font-family: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+/* ---- Orbs: colour lives only here ---------------------------------- */
+
+.d1 .d1-orb {
+  position: relative;
+  border-radius: 9999px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #06134a;
+}
+
+.d1 .d1-orb::before {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  z-index: 0;
+  background: var(--d1-orb);
+  animation: d1-drift 18s ease-in-out infinite alternate;
+}
+
+/* film grain */
+.d1 .d1-orb::after,
+.d1 .d1-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.32;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.d1 .d1-orb > * {
+  position: relative;
+  z-index: 2;
+}
+
+.d1 .d1-orb--cobalt {
+  --d1-orb:
+    radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.85) 0%, rgba(196, 219, 255, 0.6) 14%, transparent 38%),
+    radial-gradient(circle at 70% 70%, #06134a 0%, transparent 55%),
+    radial-gradient(circle at 25% 75%, #5aa0ff 0%, transparent 50%),
+    radial-gradient(circle at 60% 40%, #1238ff 0%, #1238ff 30%, #06134a 85%);
+}
+
+.d1 .d1-orb--ice {
+  background: #c4dbff;
+  --d1-orb:
+    radial-gradient(circle at 70% 25%, #ffffff 0%, transparent 45%),
+    radial-gradient(circle at 25% 70%, #5aa0ff 0%, transparent 55%),
+    radial-gradient(circle at 80% 80%, #1238ff 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, #c4dbff 0%, #e9f1ff 100%);
+}
+
+.d1 .d1-orb--navy {
+  --d1-orb:
+    radial-gradient(circle at 35% 30%, rgba(196, 219, 255, 0.75) 0%, transparent 30%),
+    radial-gradient(circle at 70% 35%, #1238ff 0%, transparent 45%),
+    radial-gradient(circle at 30% 80%, #000 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, #06134a 0%, #020617 100%);
+}
+
+.d1 .d1-orb--azure {
+  background: #5aa0ff;
+  --d1-orb:
+    radial-gradient(circle at 25% 30%, #ffffff 0%, transparent 32%),
+    radial-gradient(circle at 75% 75%, #1238ff 0%, transparent 50%),
+    radial-gradient(circle at 70% 25%, #c4dbff 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, #5aa0ff 0%, #2f6dff 100%);
+}
+
+.d1 .d1-orb--mist {
+  background: #e9eef6;
+  --d1-orb:
+    radial-gradient(circle at 30% 30%, #ffffff 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, #c4dbff 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, #eef1f5 0%, #d8dde6 100%);
+}
+
+/* Large gradient surfaces (cards) share the orb palette */
+.d1 .d1-field {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #06134a;
+}
+
+.d1 .d1-field::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(196, 219, 255, 0.55) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 30%, #1238ff 0%, transparent 50%),
+    radial-gradient(ellipse at 40% 90%, #5aa0ff 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, #06134a 0%, #000 100%);
+  animation: d1-drift 22s ease-in-out infinite alternate;
+}
+
+.d1 .d1-field > * {
+  position: relative;
+  z-index: 2;
+}
+
+.d1 .d1-grain {
+  position: relative;
+}
+
+@keyframes d1-drift {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(14deg) scale(1.06) translate(2%, -2%); }
+  100% { transform: rotate(-10deg) scale(1.02) translate(-2%, 2%); }
+}
+
+/* hide scrollbars on tab rows */
+.d1 .d1-noscroll {
+  scrollbar-width: none;
+}
+.d1 .d1-noscroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* FAQ */
+.d1 details > summary {
+  list-style: none;
+}
+.d1 details > summary::-webkit-details-marker {
+  display: none;
+}
+.d1 details[open] .d1-faq-icon {
+  transform: rotate(45deg);
+}
+
+/* Tick ruler (cohort timeline) */
+.d1 .d1-ticks {
+  background-image: repeating-linear-gradient(90deg, #d6d1cb 0 1px, transparent 1px 10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .d1 .d1-orb::before,
+  .d1 .d1-field::before,
+  .d1 .animate-marquee,
+  .d1 .animate-marquee-vertical {
+    animation: none !important;
+  }
+}

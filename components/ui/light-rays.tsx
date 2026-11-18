@@ -99,6 +99,8 @@ export function LightRays({
   const cycleDuration = Math.max(speed, 0.1)
 
   useEffect(() => {
+    // Random rays are generated client-side only to avoid a hydration mismatch.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRays(createRays(count, cycleDuration))
   }, [count, cycleDuration])
 
