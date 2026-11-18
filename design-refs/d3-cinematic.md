@@ -21,7 +21,7 @@ Typography carries the brand: large weight-400 display with tight negative track
 Gradient for the hero "membership card" visual (use it for the **cohort card**): `linear-gradient(88deg, #1f5eff, #6aa8ff 90%, #ffffff)` with an organic marbled/lava feel (layered radial gradients / blur blobs).
 
 ## Type
-Inter Tight (`--font-inter-tight`) everywhere. Display 60–72px **weight 400**, line-height 1.0, tracking -0.025em. Section heads 45–56px weight 400 tracking -0.015/-0.022em. Body 15–17px, line-height 1.4–1.5, tracking -0.005em. Weight 700 only for small labels/buttons. Geist Mono 11–13px for clinical micro-labels.
+Geist (`--font-geist`) everywhere (closest free match to NB International; keeps it distinct from Design 1's Inter Tight). Display 60–72px **weight 400**, line-height 1.0, tracking -0.025em. Section heads 45–56px weight 400 tracking -0.015/-0.022em. Body 15–17px, line-height 1.4–1.5, tracking -0.005em. Weight 700 only for small labels/buttons. Geist Mono 11–13px for clinical micro-labels.
 
 ## Shape & elevation
 Buttons pill (9999px). Cards 15px radius, small cards 5px, icons 7.5px squircle. Flat; at most `0 2px 2px rgba(0,0,0,.05)`.

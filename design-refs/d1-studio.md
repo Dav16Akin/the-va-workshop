@@ -17,7 +17,7 @@ Color only lives inside *visuals* (soft gradient orbs), never in UI chrome.
 | d1-smoke | #777169 | body copy |
 | d1-ash | #a59f97 | captions |
 | d1-cobalt | #1238ff | orb/visual accent only |
-| d1-azure | #3d8bff | orb/visual accent only |
+| d1-azure | #5aa0ff | orb/visual accent only |
 | d1-ice | #c4dbff | orb highlight |
 | d1-navy | #06134a | orb shadow tone |
 
