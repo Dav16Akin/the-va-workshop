@@ -11,16 +11,13 @@
   --color-d4-white: #ffffff;
   --color-d4-voltage: #2f6bff;
   --color-d4-signal: #7fb2ff;
-  --color-d4-cyan: #3dd6f5;
   --color-d4-ink: #0d1424;
   --color-d4-paper: #f4f6fb;
 
+  --radius-d4-card: 24px;
   --radius-d4-pill: 30px;
   --radius-d4-nav: 60px;
   --radius-d4-input: 10px;
-
-  --shadow-d4-glow: 0 0 40px rgba(47, 107, 255, 0.25);
-  --shadow-d4-glow-lg: 0 0 80px rgba(47, 107, 255, 0.35), 0 0 24px rgba(47, 107, 255, 0.25);
 }
 
 @theme inline {
@@ -29,9 +26,6 @@
 }
 
 .d4 {
-  /* MagicCard reads these */
-  --color-background: #161618;
-  --color-border: rgba(255, 255, 255, 0.08);
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   color: #ffffff;
   overflow-x: clip;
@@ -43,23 +37,19 @@
   color: #fff;
 }
 
-.d4 .d4-signal-gradient {
-  background-image: linear-gradient(179deg, #2f6bff 1%, #7fb2ff 123%);
+/* The one entrance on the page: hero content settles in on load. */
+@keyframes d4-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
-
-.d4 .d4-grid-bg {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 64px 64px;
-}
-
-/* The asymmetric pill from the reference feature grid */
-.d4 .d4-tile-a {
-  border-radius: 14px 44px 14px 14px;
-}
-.d4 .d4-tile-b {
-  border-radius: 44px 14px 14px 14px;
+.d4 .d4-hero-in {
+  animation: d4-hero-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* FAQ disclosure */
@@ -77,30 +67,22 @@
 .d4 details::details-content {
   block-size: 0;
   overflow: clip;
-  transition: block-size 0.35s ease, content-visibility 0.35s allow-discrete;
+  transition: block-size 0.3s ease, content-visibility 0.3s allow-discrete;
 }
 .d4 details[open]::details-content {
   block-size: auto;
 }
 
-@keyframes d4-pulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(61, 214, 245, 0.55); }
-  50% { opacity: 0.85; box-shadow: 0 0 0 6px rgba(61, 214, 245, 0); }
-}
-.d4 .d4-pulse {
-  animation: d4-pulse 2.2s ease-in-out infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
+  .d4 .d4-hero-in {
+    animation: none;
+  }
   .d4 details::details-content {
     transition: none;
   }
-  .d4 .d4-pulse {
-    animation: none;
-  }
-  .d4 .d4-reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
+  .d4 *,
+  .d4 *::before,
+  .d4 *::after {
+    transition-duration: 0.01ms !important;
   }
 }

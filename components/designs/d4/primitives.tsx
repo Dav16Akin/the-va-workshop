@@ -1,33 +1,26 @@
 import Link from "next/link";
-import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 
 export const container = "mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8";
 
+/** The one card style: flat carbon, hairline border, one radius. */
+export const card = "rounded-d4-card border border-white/[0.08] bg-d4-carbon";
+
+/** Linked card: adds the 2px lift and a brighter hairline on hover. */
+export const cardLink = cn(
+  card,
+  "transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal",
+);
+
 const base =
-  "group/btn inline-flex items-center justify-center gap-2.5 rounded-d4-pill text-[15px] font-medium tracking-[-0.01em] transition-[background-color,box-shadow,border-color,color] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal";
+  "inline-flex items-center justify-center gap-2 rounded-d4-pill font-medium tracking-[-0.01em] transition-[background-color,border-color,color,transform] duration-150 active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal";
 
+/** The one button pair (plus a light variant for use on the voltage card). */
 export const btn = {
-  primary: cn(
-    base,
-    "h-12 bg-d4-voltage px-6 text-white hover:bg-[#245cf0] hover:shadow-d4-glow",
-  ),
-  ghost: cn(
-    base,
-    "h-12 border border-white/15 px-6 text-white hover:border-d4-signal/60 hover:bg-white/[0.04]",
-  ),
-  light: cn(base, "h-12 bg-white px-6 text-d4-midnight hover:bg-d4-ash"),
+  primary: cn(base, "h-12 bg-d4-voltage px-6 text-[15px] text-white hover:bg-[#245cf0]"),
+  ghost: cn(base, "h-12 border border-white/15 px-6 text-[15px] text-white hover:border-white/35 hover:bg-white/[0.04]"),
+  light: cn(base, "h-12 bg-white px-6 text-[15px] text-d4-midnight hover:bg-d4-ash"),
 };
-
-export function Arrow({ className }: { className?: string }) {
-  return (
-    <ArrowRight
-      aria-hidden
-      weight="bold"
-      className={cn("size-4 transition-transform duration-200 group-hover/btn:translate-x-0.5", className)}
-    />
-  );
-}
 
 export function CtaLink({
   href,
@@ -40,35 +33,18 @@ export function CtaLink({
   variant?: keyof typeof btn;
   className?: string;
 }) {
-  const external = href.startsWith("http") || href.startsWith("mailto:");
   const cls = cn(btn[variant], className);
-  if (external) {
+  if (href.startsWith("http") || href.startsWith("mailto:")) {
     return (
       <a href={href} className={cls} {...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}>
         {children}
-        <Arrow />
       </a>
     );
   }
   return (
     <Link href={href} className={cls}>
       {children}
-      <Arrow />
     </Link>
-  );
-}
-
-export function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <p
-      className={cn(
-        "inline-flex items-center gap-2 font-d4-mono text-[12px] uppercase tracking-[0.15em] text-d4-signal",
-        className,
-      )}
-    >
-      <span aria-hidden className="size-1.5 rounded-full bg-d4-voltage shadow-[0_0_10px_#2f6bff]" />
-      {children}
-    </p>
   );
 }
 

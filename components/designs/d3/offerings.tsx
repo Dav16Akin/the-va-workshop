@@ -26,6 +26,16 @@ const ICONS: Record<OfferingIcon, Icon> = {
   analytics: ChartLineUpIcon,
 };
 
+/** Each row's link says where it goes. */
+const LINK_LABELS: Record<OfferingIcon, string> = {
+  training: "See the training tracks",
+  resume: "Shop resume templates",
+  call: "Book a session",
+  community: "Join the WhatsApp community",
+  interview: "Get notified",
+  analytics: "Get notified",
+};
+
 const OFFERING_PHOTOS: Record<OfferingIcon, Photo> = {
   training: PHOTOS.classroom,
   resume: PHOTOS.homeDesk,
@@ -95,10 +105,12 @@ export function D3Offerings() {
                         <Link
                           href={item.href}
                           {...(item.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
-                          className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-medium text-d3-carbon underline decoration-d3-mist decoration-1 underline-offset-[5px] hover:decoration-d3-carbon"
+                          className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-medium text-d3-carbon underline decoration-d3-mist decoration-1 underline-offset-[5px] transition-colors hover:decoration-d3-carbon focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-d3-signal"
                         >
-                          {item.soon ? "Get notified" : "Learn more"}
-                          <ArrowUpRightIcon weight="bold" className="size-3.5" />
+                          {LINK_LABELS[item.icon]}
+                          {item.href.startsWith("http") && (
+                            <ArrowUpRightIcon weight="bold" aria-hidden className="size-3.5" />
+                          )}
                         </Link>
                       </div>
                     </motion.div>
@@ -112,7 +124,7 @@ export function D3Offerings() {
 
       {/* Photo stage + thumbnail strip */}
       <div className="order-1 lg:order-2">
-        <div className="d3-grain relative aspect-[4/3] overflow-hidden rounded-d3-card bg-d3-carbon lg:aspect-[5/4]">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-d3-card bg-d3-carbon lg:aspect-[5/4]">
           <AnimatePresence initial={false}>
             <motion.div
               key={photo.src}
@@ -143,7 +155,7 @@ export function D3Offerings() {
                 onClick={() => setActive(i)}
                 aria-label={`Show ${item.title}`}
                 className={cn(
-                  "relative aspect-square overflow-hidden rounded-d3-small border-2 transition-all duration-300",
+                  "relative aspect-square overflow-hidden rounded-d3-small border-2 transition-[opacity,border-color] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d3-signal",
                   i === active ? "border-d3-signal" : "border-transparent opacity-60 hover:opacity-100",
                 )}
               >

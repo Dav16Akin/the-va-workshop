@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { ANNOUNCEMENT, BRAND, NAV_LINKS, PRIMARY_CTA, SECONDARY_CTA } from "@/lib/content";
 import { D3MenuButton } from "./mobile-menu";
 
@@ -10,14 +9,10 @@ export function D3Announcement() {
   return (
     <Link
       href={ANNOUNCEMENT.href}
-      className="group flex h-10 items-center justify-center gap-2 bg-d3-carbon px-4 text-[13px] text-d3-white sm:text-[14px]"
+      className="flex h-10 items-center justify-center gap-3 bg-d3-carbon px-4 text-[13px] text-d3-white focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-d3-signal sm:text-[14px]"
     >
       <span className="truncate">{ANNOUNCEMENT.text}</span>
-      <span className="hidden font-medium sm:inline">{ANNOUNCEMENT.cta}</span>
-      <ArrowRightIcon
-        weight="bold"
-        className="size-3.5 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5"
-      />
+      <span className="hidden font-medium underline decoration-1 underline-offset-4 sm:inline">{ANNOUNCEMENT.cta}</span>
     </Link>
   );
 }
@@ -55,7 +50,7 @@ export function D3Nav() {
           </Link>
           <Link
             href={PRIMARY_CTA.href}
-            className="hidden h-11 items-center rounded-full bg-d3-carbon px-5 text-[14px] font-medium text-d3-white transition-colors hover:bg-d3-black sm:inline-flex"
+            className="hidden h-11 items-center rounded-full bg-d3-carbon px-5 text-[14px] font-medium text-d3-white transition-[background-color,transform] duration-150 hover:bg-d3-black active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d3-signal sm:inline-flex"
           >
             {PRIMARY_CTA.label}
           </Link>

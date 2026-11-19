@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowUpRightIcon, DotsNineIcon, XIcon } from "@phosphor-icons/react";
-import { BRAND, COHORT, NAV_LINKS, PRIMARY_CTA, SECONDARY_CTA } from "@/lib/content";
+import { DotsNineIcon, XIcon } from "@phosphor-icons/react";
+import { ANNOUNCEMENT, BRAND, NAV_LINKS, PRIMARY_CTA, SECONDARY_CTA } from "@/lib/content";
 
 export function D3MenuButton() {
   const [open, setOpen] = useState(false);
@@ -29,7 +29,7 @@ export function D3MenuButton() {
         onClick={() => setOpen(true)}
         aria-label="Open menu"
         aria-expanded={open}
-        className="inline-flex size-10 items-center justify-center rounded-full text-d3-carbon transition-colors hover:bg-d3-fog focus-visible:outline-2 focus-visible:outline-d3-signal"
+        className="inline-flex size-11 items-center justify-center rounded-full text-d3-carbon transition-colors hover:bg-d3-fog focus-visible:outline-2 focus-visible:outline-d3-signal"
       >
         <DotsNineIcon weight="bold" className="size-6" />
       </button>
@@ -53,7 +53,7 @@ export function D3MenuButton() {
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Close menu"
-                className="inline-flex size-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
+                className="inline-flex size-11 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
               >
                 <XIcon weight="bold" className="size-5" />
               </button>
@@ -61,28 +61,22 @@ export function D3MenuButton() {
 
             <nav className="flex flex-1 flex-col justify-center px-4 sm:px-6">
               <ul className="space-y-1">
-                {NAV_LINKS.map((link, i) => (
-                  <motion.li
-                    key={link.href}
-                    initial={{ opacity: 0, y: reduce ? 0 : 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: reduce ? 0 : 0.05 + i * 0.04, duration: 0.35, ease: "easeOut" }}
-                  >
+                {NAV_LINKS.map((link) => (
+                  <li key={link.href}>
                     <Link
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      className="group flex items-baseline justify-between border-b border-white/10 py-3 text-[34px] leading-none tracking-[-0.025em] sm:text-[44px]"
+                      className="block border-b border-white/10 py-3 text-[34px] leading-none tracking-[-0.025em] transition-opacity hover:opacity-70 sm:text-[44px]"
                     >
                       {link.label}
-                      <ArrowUpRightIcon className="size-5 text-d3-ash transition-colors group-hover:text-d3-signal-glow" />
                     </Link>
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
             </nav>
 
             <div className="space-y-4 px-4 pb-6 sm:px-6">
-              <p className="d3-label text-d3-ash">{COHORT.month} cohort · Limited spots</p>
+              <p className="text-[14px] text-d3-ash">{ANNOUNCEMENT.text}</p>
               <div className="grid grid-cols-2 gap-2">
                 <Link
                   href={PRIMARY_CTA.href}

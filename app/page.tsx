@@ -1,8 +1,6 @@
 import Link from "next/link";
 
 const DESIGNS = [
-  { n: 1, name: "Studio", ref: "elevenlabs.io", note: "Warm eggshell editorial, whisper-light headlines, blue orbs.", swatch: ["#fdfcfc", "#000000", "#1238ff"] },
-  { n: 2, name: "Marketplace", ref: "awesomic.com", note: "Zinc grid, bold geometric type, electric-blue punctuation.", swatch: ["#f4f4f5", "#09090b", "#0b5cff"] },
   { n: 3, name: "Cinematic", ref: "superpower.com", note: "Dark photographic hero into crisp white, signal-blue accents.", swatch: ["#ffffff", "#18181b", "#1f5eff"] },
   { n: 4, name: "Control Room", ref: "launchdarkly.com", note: "Dark canvas, glowing blue signals, console-grade detail.", swatch: ["#0a0a0b", "#161618", "#2f6bff"] },
 ];
@@ -12,9 +10,9 @@ export default function DesignIndex() {
     <main className="min-h-screen bg-white px-5 py-16 text-black md:px-10 md:py-24">
       <div className="mx-auto max-w-5xl">
         <p className="font-mono text-xs uppercase tracking-[0.16em] text-neutral-500">The VA Workshop · Redesign</p>
-        <h1 className="mt-4 text-4xl font-semibold tracking-tight md:text-6xl">Four design directions.</h1>
+        <h1 className="mt-4 text-4xl font-semibold tracking-tight md:text-6xl">Two design directions.</h1>
         <p className="mt-4 max-w-xl text-neutral-600">
-          Same content, four visual systems. Open each homepage, pick a winner, and it gets rolled out across every page.
+          Same content, two visual systems. Open each homepage, pick a winner, and it gets rolled out across every page.
         </p>
         <ul className="mt-12 grid gap-4 sm:grid-cols-2">
           {DESIGNS.map((d) => (

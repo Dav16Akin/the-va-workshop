@@ -1,31 +1,23 @@
-import { Marquee } from "@/components/ui/marquee";
 import { SKILLS, TOOLS, toolLogo } from "@/lib/content";
 import { container } from "./primitives";
 
 export function ToolStrip() {
   return (
-    <section aria-label="Skills and tools we teach" className="relative pb-8">
+    <section aria-labelledby="d4-tools-title" className="pb-8">
       <div className={container}>
-        <p className="text-center font-d4-mono text-[12px] uppercase tracking-[0.15em] text-d4-fog">
+        <h2 id="d4-tools-title" className="text-center text-[15px] text-d4-fog">
           Trained on the tools remote teams already use
-        </p>
-      </div>
-      <div className="relative mt-8 [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]">
-        <Marquee pauseOnHover className="[--duration:46s] [--gap:0.75rem] p-0">
+        </h2>
+        <ul className="mt-8 flex flex-wrap justify-center gap-x-10 gap-y-6">
           {TOOLS.map((t) => (
-            <div
-              key={t.slug}
-              className="flex h-[76px] w-[184px] items-center justify-center gap-3 rounded-d4-pill border border-white/[0.07] bg-d4-carbon px-5 sm:h-[88px] sm:w-[216px]"
-            >
+            <li key={t.slug} className="flex items-center gap-2.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={toolLogo(t.slug, "ffffff")} alt="" width={22} height={22} loading="lazy" className="size-[22px] opacity-75" />
-              <span className="text-[15px] font-medium tracking-[-0.01em] text-white/75">{t.name}</span>
-            </div>
+              <span className="text-[15px] font-medium tracking-[-0.01em] text-white/80">{t.name}</span>
+            </li>
           ))}
-        </Marquee>
-      </div>
-      <div className={`${container} mt-8`}>
-        <ul className="flex flex-wrap justify-center gap-2">
+        </ul>
+        <ul className="mt-10 flex flex-wrap justify-center gap-2 border-t border-white/[0.08] pt-8">
           {SKILLS.map((s) => (
             <li
               key={s}

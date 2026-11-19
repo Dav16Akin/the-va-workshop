@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowRight, List, X } from "@phosphor-icons/react";
+import { List, X } from "@phosphor-icons/react";
 import { ANNOUNCEMENT, BRAND, NAV_LINKS, PRIMARY_CTA, SECONDARY_CTA } from "@/lib/content";
 import { cn } from "@/lib/utils";
+import { btn } from "./primitives";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -30,33 +31,23 @@ export function Nav() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4">
       <div className="mx-auto max-w-[1240px]">
-        <AnimatePresence initial={false}>
-          {!scrolled && (
-            <motion.div
-              key="announce"
-              initial={reduce ? false : { height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="overflow-hidden"
-            >
-              <Link
-                href={ANNOUNCEMENT.href}
-                className="mb-2.5 flex items-center justify-center gap-2 rounded-full border border-white/[0.07] bg-d4-carbon/90 px-4 py-2 text-center text-[12.5px] font-medium text-d4-ash backdrop-blur sm:text-[13px]"
-              >
-                <span aria-hidden className="d4-pulse size-1.5 shrink-0 rounded-full bg-d4-cyan" />
-                <span className="truncate">{ANNOUNCEMENT.text}</span>
-                <span className="hidden shrink-0 text-d4-signal sm:inline">{ANNOUNCEMENT.cta} →</span>
-              </Link>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {!scrolled && (
+          <Link
+            href={ANNOUNCEMENT.href}
+            className="mb-2.5 flex items-center justify-center gap-2 rounded-full border border-white/[0.08] bg-d4-carbon px-4 py-2 text-center text-[12.5px] font-medium text-d4-ash transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal sm:text-[13px]"
+          >
+            <span className="truncate">{ANNOUNCEMENT.text}</span>
+            <span className="hidden shrink-0 text-d4-signal underline underline-offset-4 decoration-d4-signal/40 sm:inline">
+              {ANNOUNCEMENT.cta}
+            </span>
+          </Link>
+        )}
 
         <nav
           aria-label="Primary"
           className={cn(
-            "relative flex h-[60px] items-center justify-between rounded-d4-nav border border-white/[0.08] bg-d4-carbon/85 pl-3 pr-2 backdrop-blur-xl transition-shadow duration-300",
-            scrolled && "shadow-[0_0_0_1px_rgba(47,107,255,0.12),0_10px_40px_rgba(0,0,0,0.5)]",
+            "relative flex h-[60px] items-center justify-between rounded-d4-nav border bg-d4-carbon pl-3 pr-2 transition-colors duration-200",
+            scrolled ? "border-white/15" : "border-white/[0.08]",
           )}
         >
           <Link href="/design-4" className="flex items-center gap-2.5 rounded-full pr-2" aria-label={`${BRAND.name} home`}>
@@ -86,10 +77,9 @@ export function Nav() {
             </Link>
             <Link
               href={PRIMARY_CTA.href}
-              className="group/btn hidden h-11 items-center gap-2 rounded-d4-pill bg-d4-voltage px-5 text-[14.5px] font-medium text-white transition-shadow hover:shadow-d4-glow sm:inline-flex"
+              className={cn(btn.primary, "hidden h-11 px-5 text-[14.5px] sm:inline-flex")}
             >
               {PRIMARY_CTA.label}
-              <ArrowRight weight="bold" className="size-4 transition-transform group-hover/btn:translate-x-0.5" />
             </Link>
             <button
               type="button"
@@ -97,7 +87,7 @@ export function Nav() {
               aria-expanded={open}
               aria-controls="d4-mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="grid size-11 place-items-center rounded-full border border-white/10 text-white xl:hidden"
+              className="grid size-11 place-items-center rounded-full border border-white/10 text-white transition-colors hover:border-white/35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal xl:hidden"
             >
               {open ? <X className="size-5" /> : <List className="size-5" />}
             </button>
@@ -108,11 +98,11 @@ export function Nav() {
           {open && (
             <motion.div
               id="d4-mobile-menu"
-              initial={reduce ? { opacity: 0 } : { opacity: 0, y: -8, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8, scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              className="mt-2 rounded-[28px] border border-white/[0.08] bg-d4-carbon/95 p-3 backdrop-blur-xl xl:hidden"
+              initial={reduce ? false : { opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
+              className="mt-2 rounded-[28px] border border-white/[0.08] bg-d4-carbon p-3 xl:hidden"
             >
               <ul className="grid">
                 {NAV_LINKS.map((l) => (
@@ -123,7 +113,6 @@ export function Nav() {
                       className="flex items-center justify-between rounded-2xl px-4 py-3.5 text-[17px] text-white hover:bg-white/[0.05]"
                     >
                       {l.label}
-                      <ArrowRight className="size-4 text-d4-fog" />
                     </Link>
                   </li>
                 ))}
@@ -131,13 +120,13 @@ export function Nav() {
               <div className="mt-2 grid grid-cols-2 gap-2 border-t border-white/[0.08] pt-3">
                 <Link
                   href={SECONDARY_CTA.href}
-                  className="flex h-12 items-center justify-center rounded-d4-pill border border-white/15 text-[15px] text-white"
+                  className={btn.ghost}
                 >
                   {SECONDARY_CTA.label}
                 </Link>
                 <Link
                   href={PRIMARY_CTA.href}
-                  className="flex h-12 items-center justify-center rounded-d4-pill bg-d4-voltage text-[15px] font-medium text-white"
+                  className={btn.primary}
                 >
                   {PRIMARY_CTA.label}
                 </Link>

@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { CheckCircle, CalendarBlank, Kanban, UsersThree, Check, Circle, ArrowRight } from "@phosphor-icons/react";
-import Link from "next/link";
-import { AnimatedList } from "@/components/ui/animated-list";
+import { CheckCircle, CalendarBlank, Kanban, UsersThree } from "@phosphor-icons/react";
 import { COHORT, HIRE_BENEFITS, JOURNEY, OFFERINGS, PATHS, PROGRAMMES } from "@/lib/content";
 import { cn } from "@/lib/utils";
+import { CtaLink, card } from "./primitives";
 
 type TabId = "learn" | "build" | "hired";
 
@@ -32,7 +30,7 @@ const TABS: {
     title: OFFERINGS[1].title,
     body: `${OFFERINGS[1].description} ${COHORT.graded}`,
     checks: JOURNEY.slice(2, 5).map((j) => j.title),
-    cta: { label: "Explore the store", href: OFFERINGS[1].href },
+    cta: { label: "Open the store", href: OFFERINGS[1].href },
   },
   {
     id: "hired",
@@ -46,14 +44,22 @@ const TABS: {
 
 export function JourneyTabs() {
   const [active, setActive] = useState<TabId>("learn");
-  const reduce = useReducedMotion();
   const tab = TABS.find((t) => t.id === active)!;
+
+  const onKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    const i = TABS.findIndex((t) => t.id === active);
+    const next = TABS[(i + (e.key === "ArrowRight" ? 1 : TABS.length - 1)) % TABS.length];
+    setActive(next.id);
+    document.getElementById(`d4-tab-${next.id}`)?.focus();
+  };
 
   return (
     <div>
       <div
         role="tablist"
         aria-label="Your path through the programme"
+        onKeyDown={onKey}
         className="mx-auto flex w-fit max-w-full gap-1 rounded-full border border-white/[0.08] bg-d4-carbon p-1.5"
       >
         {TABS.map((t) => {
@@ -61,93 +67,70 @@ export function JourneyTabs() {
           return (
             <button
               key={t.id}
+              type="button"
               role="tab"
               id={`d4-tab-${t.id}`}
               aria-selected={on}
               aria-controls={`d4-panel-${t.id}`}
+              tabIndex={on ? 0 : -1}
               onClick={() => setActive(t.id)}
               className={cn(
-                "relative flex h-11 items-center gap-2 rounded-full px-4 text-[14.5px] font-medium transition-colors sm:px-6 sm:text-[15px]",
-                on ? "text-white" : "text-d4-ash hover:text-white",
+                "flex h-11 items-center gap-2 rounded-full px-4 text-[15px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal sm:px-6",
+                on ? "bg-white/[0.08] text-white" : "text-d4-ash hover:text-white",
               )}
             >
-              {on && (
-                <motion.span
-                  layoutId="d4-journey-pill"
-                  transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }}
-                  className="absolute inset-0 rounded-full border border-d4-voltage/40 bg-white/[0.07] shadow-[0_0_24px_rgba(47,107,255,0.25)]"
-                />
-              )}
-              <span
-                aria-hidden
-                className={cn(
-                  "relative size-1.5 rounded-full transition-colors",
-                  on ? "bg-d4-voltage shadow-[0_0_10px_#2f6bff]" : "bg-d4-steel",
-                )}
-              />
-              <span className="relative">{t.label}</span>
+              <span aria-hidden className={cn("size-1.5 rounded-full", on ? "bg-d4-voltage" : "bg-d4-steel")} />
+              {t.label}
             </button>
           );
         })}
       </div>
 
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={tab.id}
-          id={`d4-panel-${tab.id}`}
-          role="tabpanel"
-          aria-labelledby={`d4-tab-${tab.id}`}
-          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="mt-12 grid items-center gap-10 lg:mt-16 lg:grid-cols-[1fr_1.15fr] lg:gap-16"
-        >
-          <div>
-            <h3 className="font-d4-sans text-[clamp(1.75rem,3.4vw,2.5rem)] font-medium leading-[1.08] tracking-[-0.03em] text-white">
-              {tab.title}
-            </h3>
-            <p className="mt-5 max-w-[500px] text-[16.5px] leading-relaxed text-d4-ash">{tab.body}</p>
-            <ul className="mt-7 space-y-3.5">
-              {tab.checks.map((c) => (
-                <li key={c} className="flex items-start gap-3 text-[15.5px] text-white">
-                  <CheckCircle weight="fill" className="mt-0.5 size-5 shrink-0 text-d4-voltage" />
-                  {c}
-                </li>
-              ))}
-            </ul>
-            <Link
-              href={tab.cta.href}
-              className="group/btn mt-9 inline-flex h-12 items-center gap-2.5 rounded-d4-pill border border-white/15 px-6 text-[15px] font-medium text-white transition-colors hover:border-d4-signal/60 hover:bg-white/[0.04]"
-            >
-              {tab.cta.label}
-              <ArrowRight weight="bold" className="size-4 transition-transform group-hover/btn:translate-x-0.5" />
-            </Link>
-          </div>
+      <div
+        id={`d4-panel-${tab.id}`}
+        role="tabpanel"
+        aria-labelledby={`d4-tab-${tab.id}`}
+        className="mt-12 grid items-center gap-10 lg:mt-16 lg:grid-cols-[1fr_1.15fr] lg:gap-16"
+      >
+        <div>
+          <h3 className="font-d4-sans text-[clamp(1.75rem,3.4vw,2.5rem)] font-medium leading-[1.08] tracking-[-0.03em] text-white">
+            {tab.title}
+          </h3>
+          <p className="mt-5 max-w-[500px] text-[16.5px] leading-relaxed text-d4-ash">{tab.body}</p>
+          <ul className="mt-7 space-y-3.5">
+            {tab.checks.map((c) => (
+              <li key={c} className="flex items-start gap-3 text-[16px] text-white">
+                <CheckCircle weight="fill" className="mt-0.5 size-5 shrink-0 text-d4-voltage" />
+                {c}
+              </li>
+            ))}
+          </ul>
+          <CtaLink href={tab.cta.href} variant="ghost" className="mt-9">
+            {tab.cta.label}
+          </CtaLink>
+        </div>
 
-          <ProductFrame>
-            {tab.id === "learn" && <SchedulePanel />}
-            {tab.id === "build" && <TrackerPanel animate={!reduce} />}
-            {tab.id === "hired" && <PoolPanel />}
-          </ProductFrame>
-        </motion.div>
-      </AnimatePresence>
+        <ProductFrame>
+          {tab.id === "learn" && <SchedulePanel />}
+          {tab.id === "build" && <TrackerPanel />}
+          {tab.id === "hired" && <PoolPanel />}
+        </ProductFrame>
+      </div>
     </div>
   );
 }
 
-/* Blue-glow stage that holds a white "product UI" panel */
+/* Flat carbon stage holding a light "product UI" panel */
 function ProductFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(120%_90%_at_100%_0%,rgba(47,107,255,0.55),rgba(47,107,255,0.12)_45%,#101114_75%)] p-4 sm:p-8">
-      <div aria-hidden className="d4-grid-bg absolute inset-0 opacity-70" />
-      <div className="relative rounded-[18px] bg-d4-paper p-1 text-d4-ink shadow-[0_0_60px_rgba(47,107,255,0.35)]">
-        <div className="flex items-center gap-1.5 px-3 py-2.5">
+    <div className={cn(card, "p-4 sm:p-8")}>
+      <div className="rounded-[16px] bg-d4-paper p-1 text-d4-ink">
+        <div aria-hidden className="flex items-center gap-1.5 px-3 py-2.5">
           <span className="size-2.5 rounded-full bg-[#d6dbe6]" />
           <span className="size-2.5 rounded-full bg-[#d6dbe6]" />
           <span className="size-2.5 rounded-full bg-[#d6dbe6]" />
         </div>
-        <div className="rounded-[14px] bg-white p-4 sm:p-6">{children}</div>
+        <div className="rounded-[12px] bg-white p-4 sm:p-6">{children}</div>
       </div>
     </div>
   );
@@ -192,7 +175,7 @@ function SchedulePanel() {
               )}
             >
               <p className={cn("text-[12.5px] font-medium leading-tight sm:text-[13px]", i === 2 && "sr-only")}>{t.title}</p>
-              {i === 2 && <span aria-hidden className="block text-center text-[13px]">★</span>}
+              {i === 2 && <span aria-hidden className="block h-[18px]" />}
             </div>
             <p className="mt-1.5 text-[12.5px] text-[#4b5263]">
               <span className="font-d4-mono text-[11px] text-[#6b7280]">{t.weeks}</span> · {t.detail}
@@ -212,36 +195,23 @@ function SchedulePanel() {
   );
 }
 
-function TrackerPanel({ animate }: { animate: boolean }) {
-  const rows = JOURNEY.map((j, i) => (
-    <div key={j.title} className="flex w-full items-start gap-3 rounded-xl border border-[#e6e9f0] bg-white p-3.5">
-      <span
-        className={cn(
-          "grid size-7 shrink-0 place-items-center rounded-full font-d4-mono text-[11px]",
-          i < 4 ? "bg-d4-voltage text-white" : "bg-[#eef1f7] text-[#4b5263]",
-        )}
-      >
-        {i < 4 ? <Check weight="bold" className="size-3.5" /> : <Circle className="size-3" />}
-      </span>
-      <div className="min-w-0">
-        <p className="text-[13.5px] font-medium">{j.title}</p>
-        <p className="mt-0.5 line-clamp-1 text-[12.5px] text-[#4b5263]">{j.description}</p>
-      </div>
-      <span className="ml-auto shrink-0 font-d4-mono text-[10.5px] text-[#6b7280]">0{i + 1}</span>
-    </div>
-  ));
+function TrackerPanel() {
   return (
     <div>
-      <PanelHead icon={<Kanban weight="bold" className="size-4" />} title="Programme tracker" meta={PROGRAMMES[0].name} />
-      <div className="mt-4 h-[330px] overflow-hidden [mask-image:linear-gradient(to_bottom,#000_80%,transparent)]">
-        {animate ? (
-          <AnimatedList delay={900} className="gap-2.5">
-            {rows}
-          </AnimatedList>
-        ) : (
-          <div className="flex flex-col gap-2.5">{rows.slice().reverse()}</div>
-        )}
-      </div>
+      <PanelHead icon={<Kanban weight="bold" className="size-4" />} title="Programme steps" meta={PROGRAMMES[0].name} />
+      <ol className="mt-4 flex flex-col gap-2.5">
+        {JOURNEY.map((j, i) => (
+          <li key={j.title} className="flex items-start gap-3 rounded-xl border border-[#e6e9f0] bg-white p-3.5">
+            <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#eef1f7] font-d4-mono text-[11px] text-[#4b5263]">
+              {i + 1}
+            </span>
+            <div className="min-w-0">
+              <p className="text-[14px] font-medium">{j.title}</p>
+              <p className="mt-0.5 text-[13px] leading-snug text-[#4b5263]">{j.description}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }

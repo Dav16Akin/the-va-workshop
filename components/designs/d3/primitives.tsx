@@ -20,13 +20,13 @@ type PillProps = {
   children: React.ReactNode;
   variant?: "dark" | "light" | "outline" | "outline-light";
   className?: string;
-  arrow?: boolean;
 };
 
-export function Pill({ href, children, variant = "dark", className, arrow }: PillProps) {
+export function Pill({ href, children, variant = "dark", className }: PillProps) {
   const external = href.startsWith("http") || href.startsWith("mailto:");
+  const newTab = href.startsWith("http");
   const classes = cn(
-    "group inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d3-signal",
+    "group inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-[15px] font-medium tracking-[-0.01em] transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d3-signal",
     variant === "dark" && "bg-d3-carbon text-d3-white hover:bg-d3-black",
     variant === "light" && "bg-d3-white text-d3-carbon hover:bg-d3-fog",
     variant === "outline" && "border border-d3-mist bg-d3-white text-d3-carbon hover:border-d3-carbon",
@@ -36,17 +36,15 @@ export function Pill({ href, children, variant = "dark", className, arrow }: Pil
   const inner = (
     <>
       {children}
-      {arrow && (
-        <ArrowUpRightIcon
-          weight="bold"
-          className="size-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-        />
+      {/* The only arrow: marks a link that opens a new tab. */}
+      {newTab && (
+        <ArrowUpRightIcon weight="bold" aria-hidden className="size-3.5" />
       )}
     </>
   );
   if (external) {
     return (
-      <a href={href} className={classes} {...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}>
+      <a href={href} className={classes} {...(newTab ? { target: "_blank", rel: "noreferrer" } : {})}>
         {inner}
       </a>
     );
@@ -63,7 +61,7 @@ export function TextLink({ href, children, className }: { href: string; children
     <Link
       href={href}
       className={cn(
-        "text-[15px] underline decoration-1 underline-offset-[6px] transition-opacity hover:opacity-70",
+        "text-[15px] underline decoration-1 underline-offset-[6px] transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-d3-signal",
         className,
       )}
     >
@@ -110,7 +108,8 @@ export function SectionHead({
       )}
       <h2
         className={cn(
-          "d3-heading mt-5 text-balance text-[36px] sm:text-[46px] lg:text-[54px]",
+          "d3-heading text-balance text-[36px] sm:text-[46px] lg:text-[54px]",
+          eyebrow && "mt-5",
           dark ? "text-d3-white" : "text-d3-carbon",
         )}
       >
