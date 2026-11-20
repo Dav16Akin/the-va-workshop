@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { DotsNineIcon, XIcon } from "@phosphor-icons/react";
+import { ArrowUpRightIcon, DotsNineIcon, XIcon } from "@phosphor-icons/react";
 import { ANNOUNCEMENT, BRAND, NAV_LINKS, PRIMARY_CTA, SECONDARY_CTA } from "@/lib/content";
 
 export function D3MenuButton() {
@@ -61,16 +61,25 @@ export function D3MenuButton() {
 
             <nav className="flex flex-1 flex-col justify-center px-4 sm:px-6">
               <ul className="space-y-1">
-                {NAV_LINKS.map((link) => (
-                  <li key={link.href}>
+                {NAV_LINKS.map((link, i) => (
+                  <motion.li
+                    key={link.href}
+                    initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: reduce ? 0 : 0.05 + i * 0.04, duration: 0.35, ease: "easeOut" }}
+                  >
                     <Link
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      className="block border-b border-white/10 py-3 text-[34px] leading-none tracking-[-0.025em] transition-opacity hover:opacity-70 sm:text-[44px]"
+                      className="group flex items-baseline justify-between border-b border-white/10 py-3 text-[34px] leading-none tracking-[-0.025em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d3-signal sm:text-[44px]"
                     >
                       {link.label}
+                      <ArrowUpRightIcon
+                        aria-hidden
+                        className="size-5 text-d3-ash transition-[color,transform,translate,scale] duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-d3-signal-glow"
+                      />
                     </Link>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </nav>

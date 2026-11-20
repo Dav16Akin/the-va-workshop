@@ -50,7 +50,7 @@ export function D3Nav() {
           </Link>
           <Link
             href={PRIMARY_CTA.href}
-            className="hidden h-11 items-center rounded-full bg-d3-carbon px-5 text-[14px] font-medium text-d3-white transition-[background-color,transform] duration-150 hover:bg-d3-black active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d3-signal sm:inline-flex"
+            className="hidden h-11 items-center rounded-full bg-d3-carbon px-5 text-[14px] font-medium text-d3-white transition-[background-color,transform,translate,scale] duration-150 hover:bg-d3-black active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d3-signal sm:inline-flex"
           >
             {PRIMARY_CTA.label}
           </Link>

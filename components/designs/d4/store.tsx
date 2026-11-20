@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Headphones, FileArrowDown } from "@phosphor-icons/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { ArrowUpRight, Headphones, FileArrowDown } from "@phosphor-icons/react";
 import { PRODUCTS, STORE_INTRO, orderHref, type Product } from "@/lib/content";
 import { cn } from "@/lib/utils";
-import { card, cardLink } from "./primitives";
+import { Arrow } from "./primitives";
 
 const TABS = [
   { id: "digital", label: "Digital", Icon: FileArrowDown },
@@ -14,6 +15,7 @@ const TABS = [
 
 export function StoreTabs() {
   const [kind, setKind] = useState<Product["kind"]>("digital");
+  const reduce = useReducedMotion();
   const items = PRODUCTS.filter((p) => p.kind === kind).slice(0, 4);
 
   return (
@@ -31,54 +33,82 @@ export function StoreTabs() {
                 aria-selected={on}
                 onClick={() => setKind(t.id)}
                 className={cn(
-                  "flex h-10 items-center gap-2 rounded-full px-4 text-[14.5px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal sm:px-5",
-                  on ? "bg-d4-voltage text-white" : "text-d4-ash hover:text-white",
+                  "relative flex h-10 items-center gap-2 rounded-full px-4 text-[14.5px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal sm:px-5",
+                  on ? "text-white" : "text-d4-ash hover:text-white",
                 )}
               >
-                <t.Icon weight="bold" className="size-4" />
-                <span>{t.label}</span>
-                <span className={cn("font-d4-mono text-[11px]", on ? "text-white" : "text-d4-fog")}>{count}</span>
+                {on && (
+                  <motion.span
+                    aria-hidden
+                    layoutId="d4-store-pill"
+                    transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }}
+                    className="absolute inset-0 rounded-full bg-d4-voltage shadow-d4-glow"
+                  />
+                )}
+                <t.Icon weight="bold" className="relative size-4" />
+                <span className="relative">{t.label}</span>
+                <span className={cn("relative font-d4-mono text-[11px]", on ? "text-white" : "text-d4-fog")}>{count}</span>
               </button>
             );
           })}
         </div>
         <Link
           href="/store"
-          className="text-[15px] font-medium text-d4-signal underline underline-offset-4 decoration-d4-signal/40 hover:decoration-d4-signal"
+          className="group/btn inline-flex items-center gap-1.5 rounded-full text-[15px] font-medium text-d4-signal underline underline-offset-4 decoration-d4-signal/40 hover:decoration-d4-signal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal"
         >
           Browse the full store
+          <Arrow />
         </Link>
       </div>
 
-      <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((p) => (
-          <li key={p.id}>
-            <ProductCard p={p} />
-          </li>
-        ))}
-        {items.length < 4 && (
-          <li>
-            <Link href="/store" className={cn(cardLink, "flex h-full min-h-[300px] flex-col justify-end p-7")}>
-              <p className="text-[20px] font-medium leading-tight tracking-[-0.02em] text-white">{STORE_INTRO.sub}</p>
-              <span className="mt-5 text-[15px] font-medium text-d4-signal">Open the store</span>
-            </Link>
-          </li>
-        )}
-      </ul>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.ul
+          key={kind}
+          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
+          transition={{ duration: reduce ? 0.15 : 0.28 }}
+          className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {items.map((p) => (
+            <li key={p.id}>
+              <ProductCard p={p} />
+            </li>
+          ))}
+          {items.length < 4 && (
+            <li>
+              <Link
+                href="/store"
+                className="d4-signal-gradient group relative flex h-full min-h-[300px] flex-col justify-end overflow-hidden rounded-[26px] border border-d4-voltage/30 p-7 transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-d4-glow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal"
+              >
+                <p className="text-[22px] font-medium leading-tight tracking-[-0.02em] text-white">{STORE_INTRO.sub}</p>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-[15px] font-medium text-white">
+                  Open the store
+                  <ArrowUpRight
+                    aria-hidden
+                    weight="bold"
+                    className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  />
+                </span>
+              </Link>
+            </li>
+          )}
+        </motion.ul>
+      </AnimatePresence>
     </div>
   );
 }
 
 function ProductCard({ p }: { p: Product }) {
   return (
-    <article className={cn(card, "group flex h-full flex-col p-2.5 transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-white/20")}>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-[16px] bg-d4-graphite">
+    <article className="group flex h-full flex-col rounded-[26px] border border-white/[0.08] bg-d4-carbon p-2.5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-d4-voltage/40 hover:shadow-d4-glow">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-d4-graphite">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={p.image}
           alt={p.name}
           loading="lazy"
-          className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
         />
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3">
           {p.tag ? (
@@ -102,10 +132,15 @@ function ProductCard({ p }: { p: Product }) {
           </p>
           <a
             href={orderHref(p.name)}
-            className="inline-flex h-10 items-center rounded-d4-pill border border-white/15 px-4 text-[14px] font-medium text-white transition-[background-color,border-color,transform] duration-150 hover:border-d4-voltage hover:bg-d4-voltage active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal"
+            className="group/btn inline-flex h-10 items-center gap-1.5 rounded-d4-pill border border-white/15 px-4 text-[14px] font-medium text-white transition-[background-color,border-color,transform] duration-150 hover:border-d4-voltage hover:bg-d4-voltage active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal"
             aria-label={`Order ${p.name}`}
           >
             Order
+            <ArrowUpRight
+              aria-hidden
+              weight="bold"
+              className="size-3.5 transition-transform duration-200 group-hover/btn:-translate-y-px group-hover/btn:translate-x-px"
+            />
           </a>
         </div>
       </div>

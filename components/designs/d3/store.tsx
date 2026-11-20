@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { ArrowRightIcon, ArrowUpRightIcon } from "@phosphor-icons/react";
 import { PRODUCTS, orderHref, type Product } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
@@ -68,9 +69,15 @@ export function D3StoreTabs() {
               <li className="hidden lg:block">
                 <Link
                   href="/store"
-                  className="flex h-full min-h-[320px] flex-col justify-end rounded-d3-card bg-d3-carbon p-6 text-d3-white transition-transform duration-200 ease-out hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-d3-signal"
+                  className="group flex h-full min-h-[320px] flex-col justify-end rounded-d3-card bg-d3-carbon p-6 text-d3-white transition-transform duration-200 ease-out hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-d3-signal"
                 >
                   <span className="block text-[28px] leading-[1.05] tracking-[-0.022em]">Browse the full store</span>
+                  <span
+                    aria-hidden
+                    className="mt-5 inline-flex size-11 items-center justify-center rounded-full bg-d3-white text-d3-carbon transition-transform duration-200 group-hover:translate-x-1"
+                  >
+                    <ArrowRightIcon weight="bold" className="size-4" />
+                  </span>
                 </Link>
               </li>
             )}
@@ -90,7 +97,7 @@ function ProductCard({ product }: { product: Product }) {
           src={product.image}
           alt={product.name}
           loading="lazy"
-          className="size-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
         />
         <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
           {product.tag ? (
@@ -116,9 +123,14 @@ function ProductCard({ product }: { product: Product }) {
         <a
           href={orderHref(product.name)}
           aria-label={`Order ${product.name} by email`}
-          className="inline-flex h-11 items-center rounded-full border border-d3-mist px-5 text-[14px] font-medium text-d3-carbon transition-[background-color,border-color,color,transform] duration-150 hover:border-d3-carbon hover:bg-d3-carbon hover:text-d3-white active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d3-signal"
+          className="group/order inline-flex h-11 items-center gap-1.5 rounded-full border border-d3-mist px-5 text-[14px] font-medium text-d3-carbon transition-[background-color,border-color,color,transform,translate,scale] duration-150 hover:border-d3-carbon hover:bg-d3-carbon hover:text-d3-white active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d3-signal"
         >
           Order by email
+          <ArrowUpRightIcon
+            weight="bold"
+            aria-hidden
+            className="size-3 transition-transform duration-200 group-hover/order:-translate-y-px group-hover/order:translate-x-px"
+          />
         </a>
       </div>
     </li>

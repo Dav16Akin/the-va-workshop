@@ -1,12 +1,24 @@
 import Image from "next/image";
+import { BorderBeam } from "@/components/ui/border-beam";
+import { BlurFade } from "@/components/ui/blur-fade";
 import { BRAND, COHORT } from "@/lib/content";
 import { CheckMark, Container, Pill } from "./primitives";
 
-/** The cohort pass: a flat signal-blue card holding the intake facts. */
+/** The blue marbled "membership card", recast as a cohort pass. */
 function CohortPass() {
   return (
-    <div className="mx-auto w-full max-w-[540px]">
-      <div className="relative aspect-[1.586] overflow-hidden rounded-d3-card bg-d3-signal text-d3-white">
+    <div className="relative mx-auto w-full max-w-[540px]">
+      {/* soft glow under the card */}
+      <div aria-hidden className="absolute inset-x-10 -bottom-8 h-24 rounded-full bg-d3-signal/40 blur-3xl" />
+      <div className="d3-marble d3-grain relative isolate aspect-[1.586] overflow-hidden rounded-[20px] text-d3-white shadow-[0_30px_60px_-30px_rgba(31,94,255,0.6)] transition-transform duration-500 ease-out hover:-translate-y-1">
+        {/* lava / marble blobs */}
+        <div aria-hidden className="absolute inset-0 -z-10">
+          <div className="animate-d3-drift absolute -left-[15%] -top-[30%] size-[75%] rounded-full bg-[#0b2fa8] opacity-80 blur-[50px]" />
+          <div className="animate-d3-drift-rev absolute -bottom-[35%] left-[25%] size-[70%] rounded-full bg-[#6aa8ff] opacity-90 blur-[60px]" />
+          <div className="animate-d3-drift absolute -right-[10%] top-[10%] size-[45%] rounded-full bg-white opacity-70 blur-[50px]" />
+          <div className="animate-d3-drift-rev absolute left-[40%] top-[-10%] size-[35%] rounded-full bg-[#1f5eff] blur-[40px]" />
+        </div>
+
         <div className="flex h-full flex-col justify-between p-5 sm:p-7">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
@@ -32,6 +44,14 @@ function CohortPass() {
             ))}
           </dl>
         </div>
+        <BorderBeam
+          size={180}
+          duration={9}
+          colorFrom="#ffffff"
+          colorTo="#6aa8ff"
+          borderWidth={1.5}
+          className="motion-reduce:hidden"
+        />
       </div>
     </div>
   );
@@ -42,12 +62,12 @@ export function D3Cohort() {
     <section id="cohort" className="scroll-mt-8 py-20 sm:py-24 lg:py-28">
       <Container>
         <div className="grid items-center gap-16 lg:grid-cols-2 lg:gap-20">
-          <div className="order-2 lg:order-1">
+          <BlurFade inView duration={0.7} offset={0} className="order-2 lg:order-1">
             <CohortPass />
             <p className="mx-auto mt-12 max-w-[480px] text-center text-[13px] leading-[1.5] text-d3-zinc">
               {COHORT.summary}
             </p>
-          </div>
+          </BlurFade>
 
           <div className="order-1 lg:order-2">
             <h2 className="d3-heading text-balance text-[40px] sm:text-[52px] lg:text-[60px]">{COHORT.title}</h2>

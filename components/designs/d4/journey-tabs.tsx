@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { CheckCircle, CalendarBlank, Kanban, UsersThree } from "@phosphor-icons/react";
 import { COHORT, HIRE_BENEFITS, JOURNEY, OFFERINGS, PATHS, PROGRAMMES } from "@/lib/content";
 import { cn } from "@/lib/utils";
-import { CtaLink, card } from "./primitives";
+import { CtaLink } from "./primitives";
 
 type TabId = "learn" | "build" | "hired";
 
@@ -44,6 +45,7 @@ const TABS: {
 
 export function JourneyTabs() {
   const [active, setActive] = useState<TabId>("learn");
+  const reduce = useReducedMotion();
   const tab = TABS.find((t) => t.id === active)!;
 
   const onKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -75,62 +77,84 @@ export function JourneyTabs() {
               tabIndex={on ? 0 : -1}
               onClick={() => setActive(t.id)}
               className={cn(
-                "flex h-11 items-center gap-2 rounded-full px-4 text-[15px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal sm:px-6",
-                on ? "bg-white/[0.08] text-white" : "text-d4-ash hover:text-white",
+                "relative flex h-11 items-center gap-2 rounded-full px-4 text-[15px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal sm:px-6",
+                on ? "text-white" : "text-d4-ash hover:text-white",
               )}
             >
-              <span aria-hidden className={cn("size-1.5 rounded-full", on ? "bg-d4-voltage" : "bg-d4-steel")} />
-              {t.label}
+              {on && (
+                <motion.span
+                  aria-hidden
+                  layoutId="d4-journey-pill"
+                  transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }}
+                  className="absolute inset-0 rounded-full border border-d4-voltage/40 bg-white/[0.07] shadow-[0_0_24px_rgba(47,107,255,0.25)]"
+                />
+              )}
+              <span
+                aria-hidden
+                className={cn(
+                  "relative size-1.5 rounded-full transition-colors",
+                  on ? "bg-d4-voltage shadow-[0_0_10px_#2f6bff]" : "bg-d4-steel",
+                )}
+              />
+              <span className="relative">{t.label}</span>
             </button>
           );
         })}
       </div>
 
-      <div
-        id={`d4-panel-${tab.id}`}
-        role="tabpanel"
-        aria-labelledby={`d4-tab-${tab.id}`}
-        className="mt-12 grid items-center gap-10 lg:mt-16 lg:grid-cols-[1fr_1.15fr] lg:gap-16"
-      >
-        <div>
-          <h3 className="font-d4-sans text-[clamp(1.75rem,3.4vw,2.5rem)] font-medium leading-[1.08] tracking-[-0.03em] text-white">
-            {tab.title}
-          </h3>
-          <p className="mt-5 max-w-[500px] text-[16.5px] leading-relaxed text-d4-ash">{tab.body}</p>
-          <ul className="mt-7 space-y-3.5">
-            {tab.checks.map((c) => (
-              <li key={c} className="flex items-start gap-3 text-[16px] text-white">
-                <CheckCircle weight="fill" className="mt-0.5 size-5 shrink-0 text-d4-voltage" />
-                {c}
-              </li>
-            ))}
-          </ul>
-          <CtaLink href={tab.cta.href} variant="ghost" className="mt-9">
-            {tab.cta.label}
-          </CtaLink>
-        </div>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={tab.id}
+          id={`d4-panel-${tab.id}`}
+          role="tabpanel"
+          aria-labelledby={`d4-tab-${tab.id}`}
+          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
+          transition={{ duration: reduce ? 0.15 : 0.3, ease: "easeOut" }}
+          className="mt-12 grid items-center gap-10 lg:mt-16 lg:grid-cols-[1fr_1.15fr] lg:gap-16"
+        >
+          <div>
+            <h3 className="font-d4-sans text-[clamp(1.75rem,3.4vw,2.5rem)] font-medium leading-[1.08] tracking-[-0.03em] text-white">
+              {tab.title}
+            </h3>
+            <p className="mt-5 max-w-[500px] text-[16.5px] leading-relaxed text-d4-ash">{tab.body}</p>
+            <ul className="mt-7 space-y-3.5">
+              {tab.checks.map((c) => (
+                <li key={c} className="flex items-start gap-3 text-[16px] text-white">
+                  <CheckCircle weight="fill" className="mt-0.5 size-5 shrink-0 text-d4-voltage" />
+                  {c}
+                </li>
+              ))}
+            </ul>
+            <CtaLink href={tab.cta.href} variant="ghost" className="mt-9">
+              {tab.cta.label}
+            </CtaLink>
+          </div>
 
-        <ProductFrame>
-          {tab.id === "learn" && <SchedulePanel />}
-          {tab.id === "build" && <TrackerPanel />}
-          {tab.id === "hired" && <PoolPanel />}
-        </ProductFrame>
-      </div>
+          <ProductFrame>
+            {tab.id === "learn" && <SchedulePanel />}
+            {tab.id === "build" && <TrackerPanel />}
+            {tab.id === "hired" && <PoolPanel />}
+          </ProductFrame>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
 
-/* Flat carbon stage holding a light "product UI" panel */
+/* Blue-glow stage that holds a light "product UI" panel */
 function ProductFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className={cn(card, "p-4 sm:p-8")}>
-      <div className="rounded-[16px] bg-d4-paper p-1 text-d4-ink">
+    <div className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(120%_90%_at_100%_0%,rgba(47,107,255,0.55),rgba(47,107,255,0.12)_45%,#101114_75%)] p-4 sm:p-8">
+      <div aria-hidden className="d4-grid-bg absolute inset-0 opacity-70" />
+      <div className="relative rounded-[18px] bg-d4-paper p-1 text-d4-ink shadow-[0_0_60px_rgba(47,107,255,0.35)]">
         <div aria-hidden className="flex items-center gap-1.5 px-3 py-2.5">
           <span className="size-2.5 rounded-full bg-[#d6dbe6]" />
           <span className="size-2.5 rounded-full bg-[#d6dbe6]" />
           <span className="size-2.5 rounded-full bg-[#d6dbe6]" />
         </div>
-        <div className="rounded-[12px] bg-white p-4 sm:p-6">{children}</div>
+        <div className="rounded-[14px] bg-white p-4 sm:p-6">{children}</div>
       </div>
     </div>
   );

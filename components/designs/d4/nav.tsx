@@ -7,7 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
 import { ANNOUNCEMENT, BRAND, NAV_LINKS, PRIMARY_CTA, SECONDARY_CTA } from "@/lib/content";
 import { cn } from "@/lib/utils";
-import { btn } from "./primitives";
+import { Arrow, btn } from "./primitives";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -31,23 +31,37 @@ export function Nav() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4">
       <div className="mx-auto max-w-[1240px]">
-        {!scrolled && (
-          <Link
-            href={ANNOUNCEMENT.href}
-            className="mb-2.5 flex items-center justify-center gap-2 rounded-full border border-white/[0.08] bg-d4-carbon px-4 py-2 text-center text-[12.5px] font-medium text-d4-ash transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal sm:text-[13px]"
-          >
-            <span className="truncate">{ANNOUNCEMENT.text}</span>
-            <span className="hidden shrink-0 text-d4-signal underline underline-offset-4 decoration-d4-signal/40 sm:inline">
-              {ANNOUNCEMENT.cta}
-            </span>
-          </Link>
-        )}
+        <AnimatePresence initial={false}>
+          {!scrolled && (
+            <motion.div
+              key="announce"
+              initial={reduce ? false : { height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="overflow-hidden"
+            >
+              <Link
+                href={ANNOUNCEMENT.href}
+                className="mb-2.5 flex items-center justify-center gap-2 rounded-full border border-white/[0.08] bg-d4-carbon/90 px-4 py-2 backdrop-blur text-center text-[12.5px] font-medium text-d4-ash transition-colors hover:text-white focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-d4-signal sm:text-[13px]"
+              >
+                <span aria-hidden className="d4-pulse size-1.5 shrink-0 rounded-full bg-d4-cyan" />
+                <span className="truncate">{ANNOUNCEMENT.text}</span>
+                <span className="hidden shrink-0 text-d4-signal underline underline-offset-4 decoration-d4-signal/40 sm:inline">
+                  {ANNOUNCEMENT.cta}
+                </span>
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <nav
           aria-label="Primary"
           className={cn(
-            "relative flex h-[60px] items-center justify-between rounded-d4-nav border bg-d4-carbon pl-3 pr-2 transition-colors duration-200",
-            scrolled ? "border-white/15" : "border-white/[0.08]",
+            "relative flex h-[60px] items-center justify-between rounded-d4-nav border bg-d4-carbon/85 pl-3 pr-2 backdrop-blur-xl transition-[border-color,box-shadow] duration-300",
+            scrolled
+              ? "border-white/15 shadow-[0_0_0_1px_rgba(47,107,255,0.12),0_10px_40px_rgba(0,0,0,0.5)]"
+              : "border-white/[0.08]",
           )}
         >
           <Link href="/design-4" className="flex items-center gap-2.5 rounded-full pr-2" aria-label={`${BRAND.name} home`}>
@@ -80,6 +94,7 @@ export function Nav() {
               className={cn(btn.primary, "hidden h-11 px-5 text-[14.5px] sm:inline-flex")}
             >
               {PRIMARY_CTA.label}
+              <Arrow />
             </Link>
             <button
               type="button"

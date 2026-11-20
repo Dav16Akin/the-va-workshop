@@ -4,58 +4,13 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, Briefcase, Check, Copy, Lightning, Scales } from "@phosphor-icons/react";
+import { ArrowUpRight, Briefcase, Check, Lightning, Scales } from "@phosphor-icons/react";
 import { COHORT, PHOTOS, PROGRAMMES, TRACK_META, TRACKS_INTRO } from "@/lib/content";
 import type { Programme } from "@/lib/programmes";
 import { cn } from "@/lib/utils";
 import { CtaLink } from "./primitives";
 
 const ICONS = [Briefcase, Lightning, Scales];
-
-type Tok = { t: string; c?: "key" | "str" | "punc" | "com" };
-
-function configLines(p: Programme): Tok[][] {
-  const meta = TRACK_META[p.slug];
-  const list = (key: string, items: string[]): Tok[][] => [
-    [
-      { t: key, c: "key" },
-      { t: ": [", c: "punc" },
-    ],
-    ...items.map((s, i) => [
-      { t: "  " },
-      { t: `"${s}"`, c: "str" as const },
-      { t: i < items.length - 1 ? "," : "", c: "punc" as const },
-    ]),
-    [{ t: "]", c: "punc" }],
-  ];
-  return [
-    [{ t: `# ${p.slug}.config`, c: "com" }],
-    [
-      { t: "track", c: "key" },
-      { t: ": ", c: "punc" },
-      { t: `"${p.name}"`, c: "str" },
-    ],
-    [
-      { t: "level", c: "key" },
-      { t: ": ", c: "punc" },
-      { t: `"${meta?.level ?? ""}"`, c: "str" },
-    ],
-    [
-      { t: "next_cohort", c: "key" },
-      { t: ": ", c: "punc" },
-      { t: `"${p.nextCohort ?? "Waitlist"}"`, c: "str" },
-    ],
-    [
-      { t: "duration", c: "key" },
-      { t: ": ", c: "punc" },
-      { t: `"${COHORT.facts[0].value}"`, c: "str" },
-    ],
-    ...list("skills", p.skills),
-    ...list("tools", p.tools),
-  ];
-}
-
-const plain = (lines: Tok[][]) => lines.map((l) => l.map((x) => x.t).join("")).join("\n");
 
 export function Tracks() {
   const [active, setActive] = useState(0);
@@ -91,8 +46,8 @@ export function Tracks() {
                       className={cn(
                         "grid size-10 shrink-0 place-items-center rounded-xl border transition-all duration-300",
                         open
-                          ? "border-d4-voltage bg-d4-voltage text-white"
-                          : "border-white/10 text-d4-fog",
+                          ? "border-d4-voltage bg-d4-voltage text-white shadow-d4-glow"
+                          : "border-white/10 bg-white/[0.03] text-d4-fog",
                       )}
                     >
                       <Icon weight="regular" className="size-5" />
@@ -113,8 +68,8 @@ export function Tracks() {
                   className="group/lvl flex shrink-0 items-center gap-2 rounded-full py-2 pl-2 font-d4-mono text-[12px] text-d4-fog transition-colors hover:text-white"
                 >
                   <span className="hidden lg:inline">{meta?.level}</span>
-                  <span className="grid size-8 place-items-center rounded-full border border-white/10 transition-colors group-hover/lvl:border-white/35">
-                    <ArrowUpRight weight="bold" className="size-3.5" />
+                  <span className="grid size-8 place-items-center rounded-full border border-white/10 transition-colors group-hover/lvl:border-d4-signal/60">
+                    <ArrowUpRight weight="bold" className="size-3.5 transition-transform duration-200 group-hover/lvl:-translate-y-px group-hover/lvl:translate-x-px" />
                   </span>
                 </Link>
               </div>
@@ -149,7 +104,7 @@ export function Tracks() {
                           View the {p.name} track
                         </CtaLink>
                       </div>
-                      <ConfigPanel programme={p} />
+                      <TrackFacts programme={p} />
                     </div>
                   </motion.div>
                 )}
@@ -162,55 +117,36 @@ export function Tracks() {
   );
 }
 
-function ConfigPanel({ programme }: { programme: Programme }) {
-  const [copied, setCopied] = useState(false);
-  const lines = configLines(programme);
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(plain(lines));
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
-    } catch {
-      /* clipboard unavailable */
-    }
-  };
-
-  const color = { key: "text-d4-signal", str: "text-[#e6edf9]", punc: "text-d4-fog", com: "text-d4-fog" } as const;
-
+function TrackFacts({ programme }: { programme: Programme }) {
   return (
-    <div className="overflow-hidden rounded-[16px] border border-white/10 bg-d4-midnight">
-      <div className="flex items-center justify-between border-b border-white/[0.07] px-4 py-2.5">
-        <span className="flex min-w-0 items-center gap-2 font-d4-mono text-[12px] text-d4-ash">
-          <span className="truncate">{programme.slug}.config</span>
-        </span>
-        <button
-          type="button"
-          onClick={copy}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 font-d4-mono text-[11.5px] text-d4-ash transition-colors hover:border-white/35 hover:text-white active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal"
-        >
-          {copied ? <Check weight="bold" className="size-3.5 text-d4-signal" /> : <Copy className="size-3.5" />}
-          <span aria-live="polite">{copied ? "Copied" : "Copy"}</span>
-        </button>
-      </div>
-      <pre className="max-h-[360px] overflow-auto p-4 font-d4-mono text-[12.5px] leading-[1.7] sm:text-[13px]">
-        <code>
-          {lines.map((l, i) => (
-            <span key={i} className="flex">
-              <span aria-hidden className="mr-4 w-5 shrink-0 select-none text-right text-d4-steel">
-                {i + 1}
-              </span>
-              <span className="whitespace-pre">
-                {l.map((tok, j) => (
-                  <span key={j} className={tok.c ? color[tok.c] : undefined}>
-                    {tok.t}
-                  </span>
-                ))}
-              </span>
-            </span>
-          ))}
-        </code>
-      </pre>
+    <div className="rounded-[16px] border border-white/10 bg-d4-midnight p-5 sm:p-6">
+      <dl className="grid grid-cols-2 gap-4 border-b border-white/[0.07] pb-5">
+        <div>
+          <dt className="text-[12.5px] text-d4-fog">Next cohort</dt>
+          <dd className="mt-1 text-[15px] text-white">{programme.nextCohort ?? "Waitlist"}</dd>
+        </div>
+        <div>
+          <dt className="text-[12.5px] text-d4-fog">Duration</dt>
+          <dd className="mt-1 text-[15px] text-white">{COHORT.facts[0].value}</dd>
+        </div>
+      </dl>
+      <h4 className="mt-5 text-[13px] font-medium text-d4-ash">Skills you&apos;ll learn</h4>
+      <ul className="mt-3 space-y-2">
+        {programme.skills.map((s) => (
+          <li key={s} className="flex gap-2.5 text-[14.5px] leading-snug text-white">
+            <Check weight="bold" className="mt-0.5 size-4 shrink-0 text-d4-signal" />
+            {s}
+          </li>
+        ))}
+      </ul>
+      <h4 className="mt-6 text-[13px] font-medium text-d4-ash">Tools</h4>
+      <ul className="mt-3 flex flex-wrap gap-2">
+        {programme.tools.map((t) => (
+          <li key={t} className="rounded-full border border-white/10 px-3 py-1 text-[13px] text-d4-ash">
+            {t}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

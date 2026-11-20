@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { BRAND, FOOTER_COLUMNS, SOCIALS } from "@/lib/content";
-import { card, container } from "./primitives";
+import { container } from "./primitives";
 
 export function Footer() {
   return (
     <footer className="px-3 pb-3 pt-10 sm:px-4 sm:pb-4">
-      <div className={card}>
-        <div className={`${container} py-14 sm:py-16`}>
+      <div className="relative overflow-hidden rounded-[32px] border border-white/[0.07] bg-d4-carbon">
+        <div aria-hidden className="absolute -bottom-40 left-1/2 h-72 w-[80%] -translate-x-1/2 rounded-full bg-d4-voltage/20 blur-3xl" />
+        <div className={`${container} relative py-14 sm:py-16`}>
           <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
             <div>
               <Link href="/design-4" className="inline-flex items-center gap-3">
@@ -63,9 +65,10 @@ export function Footer() {
                 <li key={s.label}>
                   <a
                     href={s.href}
-                    className="inline-flex items-center rounded-full border border-white/10 px-3.5 py-1.5 text-[13px] text-d4-ash transition-colors hover:border-white/35 hover:text-white"
+                    className="group/btn inline-flex items-center gap-1 rounded-full border border-white/10 px-3.5 py-1.5 text-[13px] text-d4-ash transition-colors hover:border-d4-signal/50 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal"
                   >
                     {s.label}
+                    <ArrowUpRight aria-hidden className="size-3 transition-transform duration-200 group-hover/btn:-translate-y-px group-hover/btn:translate-x-px" />
                   </a>
                 </li>
               ))}
@@ -74,9 +77,10 @@ export function Footer() {
                   href={BRAND.whatsapp}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center rounded-full border border-white/10 px-3.5 py-1.5 text-[13px] text-d4-ash transition-colors hover:border-white/35 hover:text-white"
+                  className="group/btn inline-flex items-center gap-1 rounded-full border border-d4-voltage/40 bg-d4-voltage/10 px-3.5 py-1.5 text-[13px] text-d4-signal transition-colors hover:bg-d4-voltage hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-d4-signal"
                 >
                   WhatsApp community
+                  <ArrowUpRight aria-hidden className="size-3 transition-transform duration-200 group-hover/btn:-translate-y-px group-hover/btn:translate-x-px" />
                 </a>
               </li>
             </ul>

@@ -124,7 +124,7 @@ export function D3Offerings() {
 
       {/* Photo stage + thumbnail strip */}
       <div className="order-1 lg:order-2">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-d3-card bg-d3-carbon lg:aspect-[5/4]">
+        <div className="d3-grain relative aspect-[4/3] overflow-hidden rounded-d3-card bg-d3-carbon lg:aspect-[5/4]">
           <AnimatePresence initial={false}>
             <motion.div
               key={photo.src}

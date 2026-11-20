@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRightIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRightIcon, PlayIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
+import { BlurFade } from "@/components/ui/blur-fade";
 import {
   BRAND,
   FAQS,
@@ -92,14 +93,15 @@ export function D3Tracks() {
         </div>
 
         <ul className="mt-14 grid gap-5 md:grid-cols-3">
-          {PROGRAMMES.map((p) => {
+          {PROGRAMMES.map((p, i) => {
             const meta = TRACK_META[p.slug];
             const photo = PHOTOS[meta.photo];
             return (
               <li key={p.slug}>
+                <BlurFade inView delay={i * 0.08} duration={0.6} offset={10} direction="up" className="h-full">
                   <Link
                     href={`/programmes/${p.slug}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-d3-card bg-d3-white shadow-[0_2px_2px_rgba(0,0,0,0.05)] transition-transform duration-200 ease-out hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-d3-signal"
+                    className="group flex h-full flex-col overflow-hidden rounded-d3-card bg-d3-white shadow-[0_2px_2px_rgba(0,0,0,0.05)] transition-[box-shadow,transform,translate,scale] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_24px_48px_-28px_rgba(0,0,0,0.35)] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-d3-signal"
                   >
                     <div className="relative aspect-[4/3] overflow-hidden bg-d3-carbon">
                       <Image
@@ -107,8 +109,11 @@ export function D3Tracks() {
                         alt={photo.alt}
                         fill
                         sizes="(min-width: 768px) 33vw, 100vw"
-                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                       />
+                      <span className="d3-label absolute left-3 top-3 rounded-full bg-d3-white/90 px-2.5 py-1 text-[10px] text-d3-carbon backdrop-blur">
+                        Track {String(i + 1).padStart(2, "0")}
+                      </span>
                     </div>
                     <div className="flex flex-1 flex-col p-6">
                       <p className="d3-label text-d3-signal">{meta.level}</p>
@@ -121,12 +126,24 @@ export function D3Tracks() {
                           </li>
                         ))}
                       </ul>
-                      <dl className="mt-auto flex items-baseline justify-between gap-4 border-t border-d3-mist pt-5 text-[14px]">
-                        <dt className="text-d3-zinc">Next cohort</dt>
-                        <dd className="text-d3-carbon">{p.nextCohort ?? "Waitlist"}</dd>
-                      </dl>
+                      <div className="mt-auto flex items-center justify-between gap-4 border-t border-d3-mist pt-5 text-[14px]">
+                        <dl className="flex items-baseline gap-1.5">
+                          <dt className="text-d3-zinc">Next cohort</dt>
+                          <dd className="text-d3-carbon">{p.nextCohort ?? "Waitlist"}</dd>
+                        </dl>
+                        <span
+                          aria-hidden
+                          className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-d3-carbon text-d3-white transition-colors duration-200 group-hover:bg-d3-signal"
+                        >
+                          <ArrowUpRightIcon
+                            weight="bold"
+                            className="size-3.5 transition-transform duration-200 group-hover:-translate-y-px group-hover:translate-x-px"
+                          />
+                        </span>
+                      </div>
                     </div>
                   </Link>
+                </BlurFade>
               </li>
             );
           })}
@@ -179,8 +196,8 @@ export function D3Paths() {
                 <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 600px, 100vw" className="object-cover" />
                 <span
                   className={cn(
-                    "d3-label absolute left-4 top-4 rounded-full px-3 py-1.5 text-[10px]",
-                    dark ? "bg-d3-carbon text-d3-white" : "bg-d3-white text-d3-carbon",
+                    "d3-label absolute left-4 top-4 rounded-full px-3 py-1.5 text-[10px] backdrop-blur",
+                    dark ? "bg-d3-black/60 text-d3-white" : "bg-d3-white/90 text-d3-carbon",
                   )}
                 >
                   {data.label}
@@ -200,7 +217,7 @@ export function D3Paths() {
                   ))}
                 </ol>
                 <div className="mt-auto pt-9">
-                  <Pill href={data.cta.href} variant={dark ? "light" : "dark"}>
+                  <Pill href={data.cta.href} variant={dark ? "light" : "dark"} arrow>
                     {data.cta.label}
                   </Pill>
                 </div>
@@ -272,11 +289,21 @@ export function D3Video() {
           <SectionHead title={VIDEO.title} />
           <p className="max-w-[420px] text-[16px] leading-[1.5] text-d3-zinc sm:text-[17px] lg:justify-self-end">{VIDEO.body}</p>
         </div>
-        <figure className="relative mt-12 aspect-[4/5] overflow-hidden rounded-d3-card bg-d3-black sm:aspect-[16/9]">
-          <Image src={VIDEO.poster} alt={PHOTOS.videoPoster.alt} fill sizes="(min-width: 1200px) 1200px, 100vw" className="object-cover" />
-          <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(0deg,rgba(0,0,0,0.6),transparent)]" />
-          <figcaption className="absolute bottom-5 left-5 sm:bottom-6 sm:left-7">
-            <span className="d3-label inline-flex rounded-full bg-d3-white px-3 py-1.5 text-d3-carbon">{VIDEO.status}</span>
+        <figure className="d3-grain relative mt-12 aspect-[4/5] overflow-hidden rounded-d3-card bg-d3-black sm:aspect-[16/9]">
+          <Image src={VIDEO.poster} alt={PHOTOS.videoPoster.alt} fill sizes="(min-width: 1200px) 1200px, 100vw" className="object-cover opacity-80" />
+          <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.1),rgba(0,0,0,0.65))]" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-d3-white">
+            <span aria-hidden className="relative inline-flex size-20 items-center justify-center rounded-full bg-d3-white/15 backdrop-blur-md sm:size-24">
+              <span className="absolute inset-0 animate-ping rounded-full bg-d3-white/10 [animation-duration:2.4s] motion-reduce:animate-none" />
+              <span className="inline-flex size-14 items-center justify-center rounded-full bg-d3-white text-d3-carbon sm:size-16">
+                <PlayIcon weight="fill" className="ml-0.5 size-5" />
+              </span>
+            </span>
+            <span className="d3-label rounded-full border border-white/25 px-3 py-1.5 text-d3-white/85">{VIDEO.status}</span>
+          </div>
+          <figcaption className="absolute inset-x-5 bottom-5 flex items-center justify-between text-[13px] text-d3-white/70 sm:inset-x-7 sm:bottom-6">
+            <span className="hidden sm:inline">{BRAND.name}</span>
+            <span className="font-d3-mono">Inside a live session</span>
           </figcaption>
         </figure>
       </Container>
@@ -297,7 +324,7 @@ export function D3Faq() {
               Book a session to talk through anything not covered here.
             </p>
             <div className="mt-6">
-              <Pill href={FINAL_CTA.secondary.href} variant="outline">
+              <Pill href={FINAL_CTA.secondary.href} variant="outline" arrow>
                 {FINAL_CTA.secondary.label}
               </Pill>
             </div>
@@ -329,19 +356,22 @@ export function D3Faq() {
 export function D3FinalCta() {
   return (
     <section className="px-2 sm:px-[7px]">
-      <div className="relative isolate overflow-hidden rounded-[14px] bg-d3-black px-5 py-28 text-center text-d3-white sm:py-36 lg:py-44">
-        <Image src={PHOTOS.office.src} alt="" fill sizes="100vw" className="-z-20 object-cover" />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-d3-black/70" />
-        <h2 className="d3-display mx-auto max-w-[860px] text-balance text-[42px] sm:text-[60px] lg:text-[72px]">{FINAL_CTA.title}</h2>
-        <p className="mx-auto mt-6 max-w-[560px] text-[16px] leading-[1.5] text-d3-white/80 sm:text-[18px]">{FINAL_CTA.sub}</p>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
-          <Pill href={FINAL_CTA.primary.href} variant="light" className="h-[52px] text-[16px]">
-            {FINAL_CTA.primary.label}
-          </Pill>
-          <TextLink href={FINAL_CTA.secondary.href} className="text-[16px] text-d3-white">
-            {FINAL_CTA.secondary.label}
-          </TextLink>
-        </div>
+      <div className="d3-grain relative isolate overflow-hidden rounded-[14px] bg-d3-black px-5 py-28 text-center text-d3-white sm:py-36 lg:py-44">
+        <Image src={PHOTOS.office.src} alt="" fill sizes="100vw" className="-z-20 object-cover opacity-60 saturate-[0.8]" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.55),rgba(0,0,0,0.9))]" />
+        <div aria-hidden className="absolute left-1/2 top-full -z-10 h-[420px] w-[900px] max-w-[160%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-d3-signal/40 blur-[120px]" />
+        <BlurFade inView duration={0.7} offset={10} direction="up">
+          <h2 className="d3-display mx-auto max-w-[860px] text-balance text-[42px] sm:text-[60px] lg:text-[72px]">{FINAL_CTA.title}</h2>
+          <p className="mx-auto mt-6 max-w-[560px] text-[16px] leading-[1.5] text-d3-white/80 sm:text-[18px]">{FINAL_CTA.sub}</p>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
+            <Pill href={FINAL_CTA.primary.href} variant="light" className="h-[52px] text-[16px]">
+              {FINAL_CTA.primary.label}
+            </Pill>
+            <TextLink href={FINAL_CTA.secondary.href} className="text-[16px] text-d3-white">
+              {FINAL_CTA.secondary.label}
+            </TextLink>
+          </div>
+        </BlurFade>
       </div>
     </section>
   );
@@ -407,7 +437,7 @@ export function D3Footer() {
             href={BRAND.whatsapp}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-11 items-center gap-2 self-start rounded-full bg-d3-carbon px-5 text-[14px] font-medium text-d3-white transition-[background-color,transform] duration-150 hover:bg-d3-black active:scale-[0.98] sm:self-auto"
+            className="inline-flex h-11 items-center gap-2 self-start rounded-full bg-d3-carbon px-5 text-[14px] font-medium text-d3-white transition-[background-color,transform,translate,scale] duration-150 hover:bg-d3-black active:scale-[0.98] sm:self-auto"
           >
             Join the community
             <ArrowUpRightIcon weight="bold" aria-hidden className="size-3.5" />
